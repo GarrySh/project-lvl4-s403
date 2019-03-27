@@ -7,7 +7,7 @@
     "hexlet": "dist/bin/hexlet.js"
   },
   "engines": {
-    "node": "9"
+    "node": "10"
   },
   "scripts": {
     "test": "jest",
@@ -16,11 +16,7 @@
     "build": "npm run build-app && npm run build-server",
     "postinstall": "npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@bitbucket.org:hexlet/frontend_l4_chat_project.git"
-  },
-  "author": "Kirill Mokevnin",
+  "author": "Garry Sh",
   "license": "ISC",
   "bugs": {
     "url": ""
