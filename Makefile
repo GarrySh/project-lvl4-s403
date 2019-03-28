@@ -1,6 +1,9 @@
 install: install-deps install-flow-typed
 
 start:
+	npx babel-node server/bin/slack.js
+
+start.dev:
 	npx nodemon --exec npx babel-node server/bin/slack.js
 
 install-deps:

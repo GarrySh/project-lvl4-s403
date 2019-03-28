@@ -30,7 +30,7 @@ export default () => {
   if (isDevelopment) {
     koaWebpack({
       config: webpackConfig,
-    }).then((middleware) => {
+    }).then(middleware => {
       app.use(middleware);
     });
   } else {
@@ -50,10 +50,7 @@ export default () => {
     locals: [],
     noCache: process.env.NODE_ENV !== 'production',
     basedir: path.join(__dirname, 'views'),
-    helperPath: [
-      { _ },
-      { urlFor: (...args) => router.url(...args) },
-    ],
+    helperPath: [{ _ }, { urlFor: (...args) => router.url(...args) }],
   });
   pug.use(app);
 
