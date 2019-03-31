@@ -19,10 +19,10 @@ const store = createStore(
   )
 );
 
-export default gon => {
+export default (gon, userName) => {
   render(
     <Provider store={store}>
-      <App gon={gon} />
+      <App gon={gon} userName={userName} />
     </Provider>,
     document.querySelector('#chat')
   );

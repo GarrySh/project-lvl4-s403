@@ -1,19 +1,25 @@
 import React from 'react';
+import { UserNameContext } from '../context';
 
-const renderChanels = channels => channels.map(({ id, name }) => <div key={id}>{name}</div>);
+class Chanels extends React.Component {
+  static contextType = UserNameContext;
 
-const Chanels = props => {
-  console.log('chanels props', props);
-  const {
-    gon: { channels },
-  } = props;
-
-  return (
-    <>
-      <h2>Chanels</h2>
-      {renderChanels(channels)}
-    </>
-  );
-};
+  render() {
+    console.log('chanels props', this.props, 'context', this.context);
+    const { channels } = this.props;
+    return (
+      <>
+        <span>
+          Login as:
+          {this.context}
+        </span>
+        <h2>Chanels</h2>
+        {channels.map(({ id, name }) => (
+          <div key={id}>{name}</div>
+        ))}
+      </>
+    );
+  }
+}
 
 export default Chanels;

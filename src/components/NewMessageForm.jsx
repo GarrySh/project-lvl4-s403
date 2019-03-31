@@ -1,6 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import _ from 'lodash';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
+
+import connect from '../connect';
 // import * as actions from '../actions';
 
 const mapStateToProps = state => {
@@ -10,40 +12,48 @@ const mapStateToProps = state => {
   return props;
 };
 
-const actionCreators = {};
+@connect(mapStateToProps)
+class newMessageForm extends React.Component {
+  handleSubmit = async values => {
+    const { addMessage, reset } = this.props;
+    const message = { ...values, id: _.uniqueId(), channelId: 2 };
+    console.log('submit message', { props: this.props, values, message });
+    try {
+      await addMessage({ message });
+    } catch (err) {
+      throw new SubmissionError({ _error: err.message });
+    }
+    reset();
+  };
 
-const handleSubmitMessage = () => {
-  console.log('submit message');
-};
+  render() {
+    const { handleSubmit, submitting, pristine, error } = this.props;
 
-const newMessageForm = props => {
-  const { text, handleSubmit } = props;
-
-  return (
-    <form className="form-inline" onSubmit={handleSubmit(handleSubmitMessage)}>
-      <div className="input-group mb-3">
-        <Field
-          name="text"
-          type="text"
-          component="input"
-          className="form-control"
-          placeholder="Enter new message"
-          value={text}
-        />
-        <div className="input-group-append">
-          <button className="btn btn-outline-secondary" type="submit">
-            Add message
-          </button>
+    return (
+      <form className="form-inline" onSubmit={handleSubmit(this.handleSubmit)}>
+        <div className="input-group mb-3">
+          <Field
+            name="text"
+            type="text"
+            component="input"
+            className="form-control"
+            placeholder="Enter new message"
+          />
+          <div className="input-group-append">
+            <input
+              className="btn btn-outline-secondary"
+              disabled={pristine || submitting}
+              type="submit"
+              value="Add message"
+            />
+            {error && <div className="ml-3">{error}</div>}
+          </div>
         </div>
-      </div>
-    </form>
-  );
-};
+      </form>
+    );
+  }
+}
 
-const ConnectedNewMessageForm = connect(
-  mapStateToProps,
-  actionCreators
-)(newMessageForm);
 export default reduxForm({
   form: 'newMessage',
-})(ConnectedNewMessageForm);
+})(newMessageForm);
