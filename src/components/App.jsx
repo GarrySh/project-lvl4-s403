@@ -1,19 +1,30 @@
 import React from 'react';
 import Chanels from './Chanels';
+import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 import { UserNameContext } from '../context';
 
 const App = props => {
   const {
-    gon: { channels },
-    // gon: { channels, messages, currentChannelId },
+    gon: { channels, messages, currentChannelId },
     userName,
   } = props;
 
   return (
     <UserNameContext.Provider value={userName}>
-      <Chanels channels={channels} />
-      <NewMessageForm />
+      <div className="row h-100 m-0">
+        <div className="col-3 bg-warning px-0 m-0">
+          <Chanels channels={channels} currentChannelId={currentChannelId} />
+        </div>
+        <div className="col px-0 d-flex flex-column">
+          <div className="row m-0">
+            <Messages messages={messages} />
+          </div>
+          <div className="row m-0 mt-auto">
+            <NewMessageForm />
+          </div>
+        </div>
+      </div>
     </UserNameContext.Provider>
   );
 };

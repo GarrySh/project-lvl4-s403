@@ -30,23 +30,25 @@ class newMessageForm extends React.Component {
     const { handleSubmit, submitting, pristine, error } = this.props;
 
     return (
-      <form className="form-inline" onSubmit={handleSubmit(this.handleSubmit)}>
-        <div className="input-group mb-3">
-          <Field
-            name="text"
-            type="text"
-            component="input"
-            className="form-control"
-            placeholder="Enter new message"
-          />
-          <div className="input-group-append">
-            <input
-              className="btn btn-outline-secondary"
-              disabled={pristine || submitting}
-              type="submit"
-              value="Add message"
+      <form className="w-100" onSubmit={handleSubmit(this.handleSubmit)}>
+        <div className="form-row m-0">
+          <div className="input-group m-2">
+            <Field
+              name="text"
+              type="text"
+              component="input"
+              className="form-control"
+              placeholder="Enter new message"
             />
-            {error && <div className="ml-3">{error}</div>}
+            <div className="input-group-append">
+              <input
+                className="btn btn-outline-secondary"
+                disabled={pristine || submitting}
+                type="submit"
+                value="Add message"
+              />
+              {error && <div className="ml-3">{error}</div>}
+            </div>
           </div>
         </div>
       </form>
