@@ -1,5 +1,5 @@
 import React from 'react';
-import Chanels from './Chanels';
+import Chanels from './Channels';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 import { UserNameContext } from '../context';

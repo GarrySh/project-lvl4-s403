@@ -14,14 +14,14 @@ class Chanels extends React.Component {
         <p className="h2 p-3">simple slack</p>
         <div className="p-3 lead">
           Signed in as
-          <span className="badge badge-secondary m-2">GarrySh</span>
+          <span className="badge badge-secondary m-2">{this.context}</span>
         </div>
         <div className="p-3 lead">Channels</div>
         <ul className="nav nav-pills flex-column">
           {channels.map(channel => {
             const channelClasses = cn({
               'nav-link rounded-0': true,
-              active: channel.id === currentChannelId,
+              'active bg-secondary': channel.id === currentChannelId,
             });
             return (
               <li className="nav-item" key={channel.id}>
