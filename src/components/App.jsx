@@ -6,7 +6,7 @@ import { UserNameContext } from '../context';
 
 const App = props => {
   const {
-    gon: { channels, messages, currentChannelId },
+    gon: { messages },
     userName,
   } = props;
 
@@ -14,7 +14,7 @@ const App = props => {
     <UserNameContext.Provider value={userName}>
       <div className="row h-100 m-0">
         <div className="col-3 bg-warning px-0 m-0">
-          <Chanels channels={channels} currentChannelId={currentChannelId} />
+          <Chanels />
         </div>
         <div className="col px-0 d-flex flex-column">
           <div className="row m-0">

@@ -9,7 +9,7 @@ export const addMessageSuccess = createAction('MESSAGE_ADD_SUCCESS');
 
 export const addMessage = ({ message }) => async dispatch => {
   const route = routes.messagesUrl(message.channelId);
-  console.log({ route });
+  // console.log({ route });
   const apiRequest = {
     data: {
       attributes: {
@@ -19,4 +19,9 @@ export const addMessage = ({ message }) => async dispatch => {
   };
   const response = await axios.post(route, apiRequest);
   dispatch(addMessageSuccess({ message: response.data }));
+};
+
+export const fetchChannelsSuccess = createAction('CHANNELS_FETCH_SUCCESS');
+export const fetchChannels = ({ channels, currentChannelId }) => dispatch => {
+  dispatch(fetchChannelsSuccess({ channels, currentChannelId }));
 };

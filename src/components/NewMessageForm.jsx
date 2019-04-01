@@ -5,9 +5,10 @@ import { Field, reduxForm, SubmissionError } from 'redux-form';
 import connect from '../connect';
 // import * as actions from '../actions';
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ channels }) => {
+  const { currentChannelId } = channels;
   const props = {
-    text: state.text,
+    currentChannelId,
   };
   return props;
 };
@@ -15,9 +16,9 @@ const mapStateToProps = state => {
 @connect(mapStateToProps)
 class newMessageForm extends React.Component {
   handleSubmit = async values => {
-    const { addMessage, reset } = this.props;
-    const message = { ...values, id: _.uniqueId(), channelId: 2 };
-    console.log('submit message', { props: this.props, values, message });
+    const { addMessage, reset, currentChannelId } = this.props;
+    const message = { ...values, id: _.uniqueId(), channelId: currentChannelId };
+    // console.log('submit message', { props: this.props, values, message });
     try {
       await addMessage({ message });
     } catch (err) {

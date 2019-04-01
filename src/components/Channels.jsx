@@ -1,12 +1,25 @@
 import React from 'react';
 import cn from 'classnames';
-import { UserNameContext } from '../context';
 
+import { UserNameContext } from '../context';
+import connect from '../connect';
+// import * as actions from '../actions';
+
+const mapStateToProps = ({ channels }) => {
+  const { byId, allIds, currentChannelId } = channels;
+  const props = {
+    channels: allIds.map(id => byId[id]),
+    currentChannelId,
+  };
+  return props;
+};
+
+@connect(mapStateToProps)
 class Chanels extends React.Component {
   static contextType = UserNameContext;
 
   render() {
-    // console.log('chanels props', this.props, 'context', this.context);
+    console.log('render chanels props', this.props);
     const { channels, currentChannelId } = this.props;
 
     return (
