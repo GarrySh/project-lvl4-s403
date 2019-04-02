@@ -9,7 +9,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 import App from './components/App';
-import { fetchDataFromGon } from './actions';
+import { fetchDataFromGon, getMessage } from './actions';
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -23,11 +23,14 @@ export default gon => {
   }
 
   const socket = io.connect('/');
-  socket.on('newMessage', data => console.log({ data }));
+  socket.on('newMessage', res => {
+    console.log('data attibutes', res.data);
+    store.dispatch(getMessage({ message: res.data }));
+  });
 
   render(
     <Provider store={store}>
-      <App gon={gon} userName={userName} />
+      <App userName={userName} />
     </Provider>,
     document.querySelector('#app')
   );

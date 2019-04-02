@@ -21,6 +21,10 @@ const messages = handleActions(
     [actions.fetchDataFromGonSuccess](state, { payload }) {
       return payload.messages;
     },
+    [actions.getMessage](state, { payload }) {
+      console.log('get message from socks', payload.message);
+      return [...state];
+    },
   },
   []
 );
