@@ -5,8 +5,8 @@ import { UserNameContext } from '../context';
 import connect from '../connect';
 // import * as actions from '../actions';
 
-const mapStateToProps = ({ channels }) => {
-  const { byId, allIds, currentChannelId } = channels;
+const mapStateToProps = ({ channels, currentChannelId }) => {
+  const { byId, allIds } = channels;
   const props = {
     channels: allIds.map(id => byId[id]),
     currentChannelId,

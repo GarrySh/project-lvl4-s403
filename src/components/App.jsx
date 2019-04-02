@@ -5,10 +5,7 @@ import NewMessageForm from './NewMessageForm';
 import { UserNameContext } from '../context';
 
 const App = props => {
-  const {
-    gon: { messages },
-    userName,
-  } = props;
+  const { userName } = props;
 
   return (
     <UserNameContext.Provider value={userName}>
@@ -18,7 +15,7 @@ const App = props => {
         </div>
         <div className="col px-0 d-flex flex-column">
           <div className="row m-0">
-            <Messages messages={messages} />
+            <Messages />
           </div>
           <div className="row m-0 mt-auto">
             <NewMessageForm />
