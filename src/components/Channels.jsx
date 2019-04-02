@@ -1,9 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
-
 import { UserNameContext } from '../context';
 import connect from '../connect';
-// import * as actions from '../actions';
 
 const mapStateToProps = ({ channels, currentChannelId }) => {
   const { byId, allIds } = channels;
@@ -19,7 +17,7 @@ class Chanels extends React.Component {
   static contextType = UserNameContext;
 
   render() {
-    console.log('render chanels props', this.props);
+    // console.log('render chanels props', this.props);
     const { channels, currentChannelId } = this.props;
 
     return (

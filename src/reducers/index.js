@@ -7,15 +7,13 @@ import * as actions from '../actions';
 const channels = handleActions(
   {
     [actions.fetchDataFromGonSuccess](state, { payload }) {
-      const { channels: newChannels, currentChannelId } = payload;
       return {
-        byId: _.keyBy(newChannels, 'id'),
-        allIds: newChannels.map(channel => channel.id),
-        currentChannelId,
+        byId: _.keyBy(payload.channels, 'id'),
+        allIds: payload.channels.map(channel => channel.id),
       };
     },
   },
-  { byId: {}, allIds: [], currentChannelId: 0 }
+  { byId: {}, allIds: [] }
 );
 
 const messages = handleActions(

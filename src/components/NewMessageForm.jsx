@@ -1,9 +1,9 @@
 import React from 'react';
-import _ from 'lodash';
+// import _ from 'lodash';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { UserNameContext } from '../context';
 
 import connect from '../connect';
-// import * as actions from '../actions';
 
 const mapStateToProps = ({ channels }) => {
   const { currentChannelId } = channels;
@@ -15,9 +15,12 @@ const mapStateToProps = ({ channels }) => {
 
 @connect(mapStateToProps)
 class newMessageForm extends React.Component {
+  static contextType = UserNameContext;
+
   handleSubmit = async values => {
     const { addMessage, reset, currentChannelId } = this.props;
-    const message = { ...values, id: _.uniqueId(), channelId: currentChannelId };
+    const message = { ...values, userName: this.context, channelId: currentChannelId };
+    // const message = { ...values, id: _.uniqueId(), channelId: currentChannelId };
     // console.log('submit message', { props: this.props, values, message });
     try {
       await addMessage({ message });
