@@ -1,5 +1,4 @@
 import React from 'react';
-// import _ from 'lodash';
 import { Field, SubmissionError } from 'redux-form';
 import { UserNameContext } from '../context';
 import { connect, addForm } from '../decorators';

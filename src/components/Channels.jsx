@@ -17,7 +17,6 @@ class Chanels extends React.Component {
   static contextType = UserNameContext;
 
   render() {
-    // console.log('render chanels props', this.props);
     const { channels, currentChannelId } = this.props;
 
     return (

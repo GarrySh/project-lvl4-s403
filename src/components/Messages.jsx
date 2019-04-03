@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 import { connect } from '../decorators';
 
 const mapStateToProps = state => {
-  // console.log('state in messages', state);
   const props = {
     messages: state.messages.map(message => ({ ...message, date: format(message.date, 'HH:mm') })),
   };
@@ -14,7 +13,6 @@ const mapStateToProps = state => {
 class Messages extends React.Component {
   render() {
     const { messages } = this.props;
-    // console.log('render messages in', messages);
 
     return messages.map(message => {
       return (
