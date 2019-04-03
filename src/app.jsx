@@ -20,9 +20,12 @@ export default gon => {
     cookies.set('userName', userName, { expires: 1 });
   }
 
-  store.dispatch(fetchDataFromGon(gon));
-
   const socket = io.connect('/');
+
+  socket.on('connect', () => {
+    store.dispatch(fetchDataFromGon(gon));
+  });
+
   socket.on('newMessage', res => {
     store.dispatch(getMessage({ message: res.data.attributes }));
   });

@@ -1,4 +1,4 @@
-start: build
+start:
 	node dist/bin/slack.js
 
 start.dev:
