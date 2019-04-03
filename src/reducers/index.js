@@ -22,8 +22,7 @@ const messages = handleActions(
       return payload.messages;
     },
     [actions.getMessage](state, { payload }) {
-      console.log('get message from socks', payload.message);
-      return [...state];
+      return [...state, payload.message];
     },
   },
   []

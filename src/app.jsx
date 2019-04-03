@@ -14,18 +14,17 @@ import { fetchDataFromGon, getMessage } from './actions';
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
 export default gon => {
-  store.dispatch(fetchDataFromGon(gon));
-
   let userName = cookies.get('userName');
   if (!userName) {
     userName = faker.name.findName();
     cookies.set('userName', userName, { expires: 1 });
   }
 
+  store.dispatch(fetchDataFromGon(gon));
+
   const socket = io.connect('/');
   socket.on('newMessage', res => {
-    console.log('data attibutes', res.data);
-    store.dispatch(getMessage({ message: res.data }));
+    store.dispatch(getMessage({ message: res.data.attributes }));
   });
 
   render(
