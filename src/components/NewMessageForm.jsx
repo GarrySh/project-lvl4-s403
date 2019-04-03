@@ -1,6 +1,6 @@
 import React from 'react';
 // import _ from 'lodash';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { Field, SubmissionError } from 'redux-form';
 import { UserNameContext } from '../context';
 import { connect, addForm } from '../decorators';
 
@@ -58,7 +58,4 @@ class newMessageForm extends React.Component {
   }
 }
 
-// export default reduxForm({
-//   form: 'newMessage',
-// })(newMessageForm);
 export default newMessageForm;
