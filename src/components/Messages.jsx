@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import connect from '../connect';
+import { connect } from '../decorators';
 
 const mapStateToProps = state => {
   // console.log('state in messages', state);

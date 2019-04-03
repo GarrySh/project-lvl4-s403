@@ -2,8 +2,7 @@ import React from 'react';
 // import _ from 'lodash';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { UserNameContext } from '../context';
-
-import connect from '../connect';
+import { connect, addForm } from '../decorators';
 
 const mapStateToProps = ({ channels }) => {
   const { currentChannelId } = channels;
@@ -13,6 +12,7 @@ const mapStateToProps = ({ channels }) => {
   return props;
 };
 
+@addForm('newMessage')
 @connect(mapStateToProps)
 class newMessageForm extends React.Component {
   static contextType = UserNameContext;
@@ -20,8 +20,6 @@ class newMessageForm extends React.Component {
   handleSubmit = async values => {
     const { sendMessage, reset, currentChannelId } = this.props;
     const message = { ...values, userName: this.context, channelId: currentChannelId };
-    // const message = { ...values, id: _.uniqueId(), channelId: currentChannelId };
-    // console.log('submit message', { props: this.props, values, message });
     try {
       await sendMessage({ message });
     } catch (err) {
@@ -60,6 +58,7 @@ class newMessageForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'newMessage',
-})(newMessageForm);
+// export default reduxForm({
+//   form: 'newMessage',
+// })(newMessageForm);
+export default newMessageForm;
