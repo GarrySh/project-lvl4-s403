@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { UserNameContext } from '../context';
+import UserNameContext from '../context';
 import { connect } from '../decorators';
 
 const mapStateToProps = ({ channels, currentChannelId }) => {

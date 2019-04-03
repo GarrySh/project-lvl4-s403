@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, SubmissionError } from 'redux-form';
-import { UserNameContext } from '../context';
+import UserNameContext from '../context';
 import { connect, addForm } from '../decorators';
 
 const mapStateToProps = ({ channels }) => {
@@ -33,6 +33,7 @@ class newMessageForm extends React.Component {
     return (
       <form className="w-100" onSubmit={handleSubmit(this.handleSubmit)}>
         <div className="form-row m-0">
+          {error && <div className="mx-2 text-danger">{error}</div>}
           <div className="input-group m-2">
             <Field
               name="text"
@@ -48,7 +49,6 @@ class newMessageForm extends React.Component {
                 type="submit"
                 value="Add message"
               />
-              {error && <div className="ml-3">{error}</div>}
             </div>
           </div>
         </div>
