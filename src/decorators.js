@@ -5,7 +5,7 @@ import * as actionCreators from './actions';
 export const connect = mapStateToProps => Component =>
   reduxConnect(mapStateToProps, actionCreators)(Component);
 
-export const addForm = formName => Component =>
+export const withForm = formName => Component =>
   reduxForm({
     form: formName,
   })(Component);

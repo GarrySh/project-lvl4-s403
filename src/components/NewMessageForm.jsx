@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, SubmissionError } from 'redux-form';
 import UserNameContext from '../context';
-import { connect, addForm } from '../decorators';
+import { connect, withForm } from '../decorators';
 
 const mapStateToProps = ({ channels }) => {
   const { currentChannelId } = channels;
@@ -11,7 +11,7 @@ const mapStateToProps = ({ channels }) => {
   return props;
 };
 
-@addForm('newMessage')
+@withForm('newMessage')
 @connect(mapStateToProps)
 class newMessageForm extends React.Component {
   static contextType = UserNameContext;
