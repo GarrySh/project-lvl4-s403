@@ -21,4 +21,6 @@ export const sendMessage = ({ message }) => async () => {
   await axios.post(route, apiRequest);
 };
 
-export const getMessage = createAction('GET_MESSAGE');
+export const getMessage = createAction('GET_MESSAGE_FROM_SOCKET');
+
+export const changeChannel = createAction('CHANGE_CHANNEL');

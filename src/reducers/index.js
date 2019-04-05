@@ -33,6 +33,9 @@ const currentChannelId = handleActions(
     [actions.fetchDataFromGonSuccess](state, { payload }) {
       return payload.currentChannelId;
     },
+    [actions.changeChannel](state, { payload }) {
+      return payload.currentChannelId;
+    },
   },
   0
 );

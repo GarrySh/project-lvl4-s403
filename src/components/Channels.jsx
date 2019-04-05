@@ -16,6 +16,12 @@ const mapStateToProps = ({ channels, currentChannelId }) => {
 class Chanels extends React.Component {
   static contextType = UserNameContext;
 
+  handleChannelChange = id => event => {
+    event.preventDefault();
+    const { changeChannel } = this.props;
+    changeChannel({ currentChannelId: id });
+  };
+
   render() {
     const { channels, currentChannelId } = this.props;
 
@@ -35,7 +41,11 @@ class Chanels extends React.Component {
             });
             return (
               <li className="nav-item" key={channel.id}>
-                <a className={channelClasses} href="#/">
+                <a
+                  className={channelClasses}
+                  href={`/channel/${channel.id}`}
+                  onClick={this.handleChannelChange(channel.id)}
+                >
                   {channel.name}
                 </a>
               </li>
