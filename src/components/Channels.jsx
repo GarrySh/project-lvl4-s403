@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import { Nav, Badge } from 'react-bootstrap';
 import UserNameContext from '../context';
-import { connect } from '../decorators';
+import { withConnect } from '../decorators';
 
 const mapStateToProps = ({ channels, currentChannelId }) => {
   const { byId, allIds } = channels;
@@ -13,7 +13,7 @@ const mapStateToProps = ({ channels, currentChannelId }) => {
   return props;
 };
 
-@connect(mapStateToProps)
+@withConnect(mapStateToProps)
 class Chanels extends React.Component {
   static contextType = UserNameContext;
 

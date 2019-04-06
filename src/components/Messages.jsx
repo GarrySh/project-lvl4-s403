@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row } from 'react-bootstrap';
-import { connect } from '../decorators';
+import { withConnect } from '../decorators';
 import { filteredMessagesSelector } from '../selectors';
 
 const mapStateToProps = state => {
@@ -8,7 +8,7 @@ const mapStateToProps = state => {
   return props;
 };
 
-@connect(mapStateToProps)
+@withConnect(mapStateToProps)
 class Messages extends React.Component {
   render() {
     const { messages } = this.props;
