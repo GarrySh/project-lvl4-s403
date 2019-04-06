@@ -1,11 +1,9 @@
 import React from 'react';
-import { format } from 'date-fns';
 import { connect } from '../decorators';
+import { filteredMessages } from '../selectors';
 
 const mapStateToProps = state => {
-  const props = {
-    messages: state.messages.map(message => ({ ...message, date: format(message.date, 'HH:mm') })),
-  };
+  const props = { messages: filteredMessages(state) };
   return props;
 };
 

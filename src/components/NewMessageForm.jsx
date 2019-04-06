@@ -3,8 +3,7 @@ import { Field, SubmissionError } from 'redux-form';
 import UserNameContext from '../context';
 import { connect, withForm } from '../decorators';
 
-const mapStateToProps = ({ channels }) => {
-  const { currentChannelId } = channels;
+const mapStateToProps = ({ currentChannelId }) => {
   const props = {
     currentChannelId,
   };
