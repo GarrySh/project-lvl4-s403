@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap';
 import Chanels from './Channels';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
@@ -9,19 +10,19 @@ const App = props => {
 
   return (
     <UserNameContext.Provider value={userName}>
-      <div className="row h-100 m-0">
-        <div className="col-4 col-sm-3 col-md-3 col-lg-3 col-xl-2 bg-warning px-0 m-0">
+      <Row className="row h-100 m-0">
+        <Col xs="4" sm="3" md="3" lg="3" xl="2" className="bg-warning px-0 m-0">
           <Chanels />
-        </div>
-        <div className="col px-0 d-flex flex-column h-100">
-          <div className="row m-0 overflow-auto">
+        </Col>
+        <Col className="px-0 d-flex flex-column h-100">
+          <Row className="m-0 overflow-auto">
             <Messages />
-          </div>
-          <div className="row m-0 mt-auto">
+          </Row>
+          <Row className="m-0 mt-auto">
             <NewMessageForm />
-          </div>
-        </div>
-      </div>
+          </Row>
+        </Col>
+      </Row>
     </UserNameContext.Provider>
   );
 };

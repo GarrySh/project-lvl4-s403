@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, SubmissionError } from 'redux-form';
+import { Form, InputGroup } from 'react-bootstrap';
 import UserNameContext from '../context';
 import { connect, withForm } from '../decorators';
 
@@ -30,10 +31,10 @@ class newMessageForm extends React.Component {
     const { handleSubmit, submitting, pristine, error } = this.props;
 
     return (
-      <form className="w-100" onSubmit={handleSubmit(this.handleSubmit)}>
-        <div className="form-row m-0">
+      <Form className="w-100" onSubmit={handleSubmit(this.handleSubmit)}>
+        <Form.Row className="m-0">
           {error && <div className="mx-2 text-danger">{error}</div>}
-          <div className="input-group m-2">
+          <InputGroup className="m-2">
             <Field
               name="text"
               type="text"
@@ -41,17 +42,17 @@ class newMessageForm extends React.Component {
               className="form-control"
               placeholder="Enter new message"
             />
-            <div className="input-group-append">
-              <input
+            <InputGroup.Append>
+              <Form.Control
                 className="btn btn-outline-secondary"
                 disabled={pristine || submitting}
                 type="submit"
                 value="Add message"
               />
-            </div>
-          </div>
-        </div>
-      </form>
+            </InputGroup.Append>
+          </InputGroup>
+        </Form.Row>
+      </Form>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { Nav, Badge } from 'react-bootstrap';
 import UserNameContext from '../context';
 import { connect } from '../decorators';
 
@@ -29,29 +30,29 @@ class Chanels extends React.Component {
       <>
         <p className="h2 p-3">simple slack</p>
         <div className="p-3 lead">
-          Signed in as
-          <span className="badge badge-secondary m-2">{this.context}</span>
+          <div>Signed in as</div>
+          <Badge variant="secondary">{this.context}</Badge>
         </div>
         <div className="p-3 lead">Channels</div>
-        <ul className="nav nav-pills flex-column">
+        <Nav variant="pills" className="flex-column">
           {channels.map(channel => {
             const channelClasses = cn({
-              'nav-link rounded-0': true,
+              'rounded-0': true,
               'active bg-secondary': channel.id === currentChannelId,
             });
             return (
-              <li className="nav-item" key={channel.id}>
-                <a
+              <Nav.Item key={channel.id}>
+                <Nav.Link
                   className={channelClasses}
                   href={`/channel/${channel.id}`}
                   onClick={this.handleChannelChange(channel.id)}
                 >
                   {channel.name}
-                </a>
-              </li>
+                </Nav.Link>
+              </Nav.Item>
             );
           })}
-        </ul>
+        </Nav>
       </>
     );
   }

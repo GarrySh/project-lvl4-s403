@@ -1,9 +1,10 @@
 import React from 'react';
+import { Row } from 'react-bootstrap';
 import { connect } from '../decorators';
-import { filteredMessages } from '../selectors';
+import { filteredMessagesSelector } from '../selectors';
 
 const mapStateToProps = state => {
-  const props = { messages: filteredMessages(state) };
+  const props = { messages: filteredMessagesSelector(state) };
   return props;
 };
 
@@ -14,13 +15,13 @@ class Messages extends React.Component {
 
     return messages.map(message => {
       return (
-        <div className="row m-2 w-100" key={message.id}>
+        <Row className="m-2 w-100" key={message.id}>
           <div className="w-100">
             <b>{message.userName}</b>
             <small className="p-2">{message.date}</small>
           </div>
           <p className="m-0">{message.text}</p>
-        </div>
+        </Row>
       );
     });
   }
