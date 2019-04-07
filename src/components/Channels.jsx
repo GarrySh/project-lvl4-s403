@@ -23,6 +23,12 @@ class Chanels extends React.Component {
     changeChannel({ currentChannelId: id });
   };
 
+  handleChannelAdd = event => {
+    event.preventDefault();
+    const { toggleModalForm } = this.props;
+    toggleModalForm();
+  };
+
   render() {
     const { channels, currentChannelId } = this.props;
 
@@ -47,11 +53,14 @@ class Chanels extends React.Component {
                   href={`/channel/${channel.id}`}
                   onClick={this.handleChannelChange(channel.id)}
                 >
-                  {channel.name}
+                  {`# ${channel.name}`}
                 </Nav.Link>
               </Nav.Item>
             );
           })}
+          <Nav.Link className="mt-3" onClick={this.handleChannelAdd}>
+            + Add new channel
+          </Nav.Link>
         </Nav>
       </>
     );

@@ -40,9 +40,22 @@ const currentChannelId = handleActions(
   0
 );
 
+const uiState = handleActions(
+  {
+    [actions.toggleModalForm](state) {
+      return {
+        ...state,
+        displayModalForm: !state.displayModalForm,
+      };
+    },
+  },
+  { displayModalForm: false }
+);
+
 export default combineReducers({
   currentChannelId,
   channels,
   messages,
+  uiState,
   form: formReducer,
 });

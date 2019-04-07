@@ -24,3 +24,5 @@ export const sendMessage = ({ message }) => async () => {
 export const getMessage = createAction('GET_MESSAGE_FROM_SOCKET');
 
 export const changeChannel = createAction('CHANGE_CHANNEL');
+
+export const toggleModalForm = createAction('TOGGLE_MODAL_FORM');
