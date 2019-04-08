@@ -42,10 +42,16 @@ const currentChannelId = handleActions(
 
 const uiState = handleActions(
   {
-    [actions.toggleModalForm](state) {
+    [actions.openModalForm](state) {
       return {
         ...state,
-        displayModalForm: !state.displayModalForm,
+        displayModalForm: true,
+      };
+    },
+    [actions.closeModalForm](state) {
+      return {
+        ...state,
+        displayModalForm: false,
       };
     },
   },

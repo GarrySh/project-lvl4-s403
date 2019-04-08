@@ -25,8 +25,8 @@ class Chanels extends React.Component {
 
   handleChannelAdd = event => {
     event.preventDefault();
-    const { toggleModalForm } = this.props;
-    toggleModalForm();
+    const { openModalForm } = this.props;
+    openModalForm();
   };
 
   render() {

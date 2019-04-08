@@ -25,4 +25,5 @@ export const getMessage = createAction('GET_MESSAGE_FROM_SOCKET');
 
 export const changeChannel = createAction('CHANGE_CHANNEL');
 
-export const toggleModalForm = createAction('TOGGLE_MODAL_FORM');
+export const openModalForm = createAction('OPEN_MODAL_FORM');
+export const closeModalForm = createAction('CLOSE_MODAL_FORM');

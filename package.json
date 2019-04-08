@@ -89,5 +89,11 @@
     "jest": "^24.5.0",
     "jest-cli": "^24.5.0",
     "nodemon": "^1.18.10"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
