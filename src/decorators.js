@@ -5,7 +5,8 @@ import * as actionCreators from './actions';
 export const withConnect = mapStateToProps => Component =>
   reduxConnect(mapStateToProps, actionCreators)(Component);
 
-export const withForm = formName => Component =>
+export const withForm = (formName, validate) => Component =>
   reduxForm({
     form: formName,
+    validate,
   })(Component);

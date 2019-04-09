@@ -12,6 +12,14 @@ const channels = handleActions(
         allIds: payload.channels.map(channel => channel.id),
       };
     },
+    [actions.addChannel](state, { payload }) {
+      const { allIds, byId } = state;
+      const { channel } = payload;
+      return {
+        allIds: [...allIds, channel.id],
+        byId: { ...byId, [channel.id]: channel },
+      };
+    },
   },
   { byId: {}, allIds: [] }
 );

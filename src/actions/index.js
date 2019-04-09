@@ -27,3 +27,5 @@ export const changeChannel = createAction('CHANGE_CHANNEL');
 
 export const openModalForm = createAction('OPEN_MODAL_FORM');
 export const closeModalForm = createAction('CLOSE_MODAL_FORM');
+
+export const addChannel = createAction('ADD_CHANNEL');
