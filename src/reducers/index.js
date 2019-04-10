@@ -48,6 +48,18 @@ const currentChannelId = handleActions(
   0
 );
 
+const connectionStatus = handleActions(
+  {
+    [actions.appConnect]() {
+      return 'connected';
+    },
+    [actions.appDisconnect]() {
+      return 'disconnected';
+    },
+  },
+  'none'
+);
+
 const uiState = handleActions(
   {
     [actions.openModalForm](state) {
@@ -70,6 +82,7 @@ export default combineReducers({
   currentChannelId,
   channels,
   messages,
+  connectionStatus,
   uiState,
   form: formReducer,
 });

@@ -9,7 +9,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 import App from './components/App';
-import { fetchDataFromGon, getMessage } from './actions';
+import { appInit, getMessage, appDisconnect } from './actions';
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -20,10 +20,14 @@ export default gon => {
     cookies.set('userName', userName, { expires: 1 });
   }
 
-  const socket = io.connect('/');
+  const socket = io.connect();
 
   socket.on('connect', () => {
-    store.dispatch(fetchDataFromGon(gon));
+    store.dispatch(appInit(gon));
+  });
+
+  socket.on('disconnect', () => {
+    store.dispatch(appDisconnect());
   });
 
   socket.on('newMessage', res => {

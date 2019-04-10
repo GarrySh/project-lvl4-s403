@@ -2,9 +2,13 @@ import axios from 'axios';
 import { createAction } from 'redux-actions';
 import routes from '../routes';
 
+export const appConnect = createAction('APP_CONNECTED');
+export const appDisconnect = createAction('APP_DISCONNECTED');
 export const fetchDataFromGonSuccess = createAction('DATA_FETCH_SUCCESS');
 
-export const fetchDataFromGon = ({ channels, messages, currentChannelId }) => dispatch => {
+export const appInit = gon => dispatch => {
+  const { channels, messages, currentChannelId } = gon;
+  dispatch(appConnect());
   dispatch(fetchDataFromGonSuccess({ channels, messages, currentChannelId }));
 };
 

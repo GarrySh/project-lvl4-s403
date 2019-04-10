@@ -5,6 +5,7 @@ import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 import ModalChannelForm from './ModalChannelForm';
 import UserNameContext from '../context';
+import AppAlert from './AppAlert';
 
 const App = props => {
   const { userName } = props;
@@ -17,6 +18,7 @@ const App = props => {
         </Col>
         <Col className="px-0 d-flex flex-column h-100">
           <Row className="m-0 overflow-auto">
+            <AppAlert />
             <Messages />
           </Row>
           <Row className="m-0 mt-auto">
