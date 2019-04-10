@@ -1,26 +1,30 @@
 import React from 'react';
 import cn from 'classnames';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { Field, SubmissionError } from 'redux-form';
-import { exclusion } from 'redux-form-validators';
+import { Field } from 'redux-form';
+import { exclusion, length } from 'redux-form-validators';
 import { withForm, withConnect } from '../decorators';
-import { channelsSelector } from '../selectors';
+import { channelsNameSelector } from '../selectors';
 
 const mapStateToProps = state => {
   const { displayModalForm } = state.uiState;
-  const props = { displayModalForm, channels: channelsSelector(state) };
+  const props = { displayModalForm, channels: channelsNameSelector(state) };
   return props;
 };
 
-const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
-  console.log({ input, error });
+const renderField = ({ input, label, type, meta: { error, pristine } }) => {
+  const channelNameClass = cn({
+    'form-control': true,
+    'is-invalid': !pristine && error,
+    'is-valid': !pristine && !error,
+  });
+
   return (
-    <div>
-      <div>
-        <input {...input} placeholder={label} type={type} />
-        {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-      </div>
-    </div>
+    <Form.Group>
+      <Form.Label>{label}</Form.Label>
+      <Form.Control {...input} placeholder={label} type={type} className={channelNameClass} />
+      {error && <div className="invalid-feedback">{error}</div>}
+    </Form.Group>
   );
 };
 
@@ -33,21 +37,12 @@ class ModalChannelForm extends React.Component {
   };
 
   handleSubmit = ({ channelName }) => {
-    const { channels } = this.props;
-    const normalizeName = channelName.trim().toLowerCase();
-    const findResult = channels.find(channel => channel.name === normalizeName);
-    if (findResult) {
-      throw new SubmissionError({ _error: 'channel name is not unique' });
-    }
+    console.log({ channelName });
   };
 
   render() {
-    const { channels, handleSubmit, submitting, pristine, error, displayModalForm } = this.props;
-    const channelNameClass = cn({
-      'form-control': true,
-      'is-invalid': error,
-    });
-    console.log({ channels });
+    const { channels, handleSubmit, submitting, pristine, valid, displayModalForm } = this.props;
+
     return (
       <Modal show={displayModalForm} onHide={this.handleFormClose}>
         <Form onSubmit={handleSubmit(this.handleSubmit)}>
@@ -55,23 +50,22 @@ class ModalChannelForm extends React.Component {
             <Modal.Title>Add new channel</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form.Group>
-              <Form.Label>Enter a unique channel name</Form.Label>
-              <Field
-                className={channelNameClass}
-                name="channelName"
-                type="text"
-                component={renderField}
-                validate={exclusion({ in: ['gen'], caseSensitive: false })}
-              />
-              <div className="invalid-feedback">{error}</div>
-            </Form.Group>
+            <Field
+              name="channelName"
+              type="text"
+              component={renderField}
+              label="Enter a unique channel name"
+              validate={[
+                length({ minimum: 3 }),
+                exclusion({ in: channels, caseSensitive: false, msg: 'name is not unique' }),
+              ]}
+            />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleFormClose}>
               Close
             </Button>
-            <Button variant="primary" type="submit" disabled={pristine || submitting}>
+            <Button variant="primary" type="submit" disabled={pristine || !valid || submitting}>
               Save
             </Button>
           </Modal.Footer>

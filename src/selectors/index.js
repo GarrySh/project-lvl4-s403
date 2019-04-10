@@ -3,12 +3,19 @@ import { format } from 'date-fns';
 
 const getChannelsById = state => state.channels.byId;
 const getChannelIds = state => state.channels.allIds;
+
 export const channelsSelector = createSelector(
   [getChannelsById, getChannelIds],
   (byId, allIds) => allIds.map(id => byId[id])
 );
 
+export const channelsNameSelector = createSelector(
+  [channelsSelector],
+  channels => channels.map(channel => channel.name)
+);
+
 const getMessages = state => state.messages;
+
 export const messagesSelector = createSelector(
   getMessages,
   messages =>
@@ -19,6 +26,7 @@ export const messagesSelector = createSelector(
 );
 
 const getCurrentChannelId = state => state.currentChannelId;
+
 export const filteredMessagesSelector = createSelector(
   [messagesSelector, getCurrentChannelId],
   (messages, currentChannelId) => messages.filter(message => message.channelId === currentChannelId)
