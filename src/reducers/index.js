@@ -12,7 +12,7 @@ const channels = handleActions(
         allIds: payload.channels.map(channel => channel.id),
       };
     },
-    [actions.addChannel](state, { payload }) {
+    [actions.addChannelFromSocket](state, { payload }) {
       const { allIds, byId } = state;
       const { channel } = payload;
       return {
@@ -29,7 +29,7 @@ const messages = handleActions(
     [actions.fetchDataFromGonSuccess](state, { payload }) {
       return payload.messages;
     },
-    [actions.getMessage](state, { payload }) {
+    [actions.addMessageFromSocket](state, { payload }) {
       return [...state, payload.message];
     },
   },
@@ -41,7 +41,7 @@ const currentChannelId = handleActions(
     [actions.fetchDataFromGonSuccess](state, { payload }) {
       return payload.currentChannelId;
     },
-    [actions.changeChannel](state, { payload }) {
+    [actions.changeCurrentChannel](state, { payload }) {
       return payload.currentChannelId;
     },
   },

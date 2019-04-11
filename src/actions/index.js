@@ -12,7 +12,9 @@ export const appInit = gon => dispatch => {
   dispatch(fetchDataFromGonSuccess({ channels, messages, currentChannelId }));
 };
 
-export const sendMessage = ({ message }) => async () => {
+export const addMessageFromSocket = createAction('GET_MESSAGE_FROM_SOCKET');
+
+export const sendAddMessageRequest = ({ message }) => async () => {
   const route = routes.messagesUrl(message.channelId);
   const apiRequest = {
     data: {
@@ -25,11 +27,20 @@ export const sendMessage = ({ message }) => async () => {
   await axios.post(route, apiRequest);
 };
 
-export const getMessage = createAction('GET_MESSAGE_FROM_SOCKET');
-
-export const changeChannel = createAction('CHANGE_CHANNEL');
-
 export const openModalForm = createAction('OPEN_MODAL_FORM');
 export const closeModalForm = createAction('CLOSE_MODAL_FORM');
 
-export const addChannel = createAction('ADD_CHANNEL');
+export const addChannelFromSocket = createAction('ADD_CHANNEL_FROM_SOCKET');
+export const changeCurrentChannel = createAction('CHANGE_CHANNEL');
+
+export const sendAddChannelRequest = ({ channel }) => async () => {
+  const route = routes.channelsUrl();
+  const apiRequest = {
+    data: {
+      attributes: {
+        ...channel,
+      },
+    },
+  };
+  await axios.post(route, apiRequest);
+};

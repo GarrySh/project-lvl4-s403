@@ -19,8 +19,8 @@ class Chanels extends React.Component {
 
   handleChannelChange = id => event => {
     event.preventDefault();
-    const { changeChannel } = this.props;
-    changeChannel({ currentChannelId: id });
+    const { changeCurrentChannel } = this.props;
+    changeCurrentChannel({ currentChannelId: id });
   };
 
   handleChannelAdd = event => {

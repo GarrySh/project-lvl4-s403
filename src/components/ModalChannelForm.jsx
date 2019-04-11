@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { Field } from 'redux-form';
+import { Field, SubmissionError } from 'redux-form';
 import { exclusion, length } from 'redux-form-validators';
 import { withForm, withConnect } from '../decorators';
 import { channelsNameSelector } from '../selectors';
@@ -36,8 +36,17 @@ class ModalChannelForm extends React.Component {
     closeModalForm();
   };
 
-  handleSubmit = ({ channelName }) => {
+  handleSubmit = async ({ channelName }) => {
     console.log({ channelName });
+    const { sendAddChannelRequest, reset, closeModalForm } = this.props;
+    const channel = { name: channelName };
+    try {
+      await sendAddChannelRequest({ channel });
+    } catch (err) {
+      throw new SubmissionError({ _error: err.message });
+    }
+    reset();
+    closeModalForm();
   };
 
   render() {
