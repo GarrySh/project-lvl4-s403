@@ -34,32 +34,37 @@ class Chanels extends React.Component {
 
     return (
       <>
-        <p className="h2 p-3">simple slack</p>
+        <p className="h2 p-3 text-white">
+          <span className="fab fa-slack mr-2" />
+          simple slack
+        </p>
         <div className="p-3 lead">
-          <div>Signed in as</div>
+          <p className="text-white font-weight-bold mb-1">Signed in as</p>
           <Badge variant="secondary">{this.context}</Badge>
         </div>
-        <div className="p-3 lead">Channels</div>
+        <div className="p-3 lead text-white font-weight-bold">Channels</div>
         <Nav variant="pills" className="flex-column">
           {channels.map(channel => {
             const channelClasses = cn({
-              'rounded-0': true,
+              'rounded-0 text-white py-1': true,
               'active bg-secondary': channel.id === currentChannelId,
             });
             return (
-              <Nav.Item key={channel.id}>
+              <Nav.Item key={channel.id} className="">
                 <Nav.Link
                   className={channelClasses}
                   href={`/channel/${channel.id}`}
                   onClick={this.handleChannelChange(channel.id)}
                 >
-                  {`# ${channel.name}`}
+                  <span className="fab fa-slack-hash mr-2" />
+                  {channel.name}
                 </Nav.Link>
               </Nav.Item>
             );
           })}
-          <Nav.Link className="mt-3" onClick={this.handleChannelAdd}>
-            + Add new channel
+          <Nav.Link className="mt-3 text-white" onClick={this.handleChannelAdd}>
+            <span className="fas fa-plus mr-2" />
+            Add new channel
           </Nav.Link>
         </Nav>
       </>

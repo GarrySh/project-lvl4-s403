@@ -13,7 +13,7 @@ const App = props => {
   return (
     <UserNameContext.Provider value={userName}>
       <Row className="row h-100 m-0">
-        <Col xs="4" sm="3" md="3" lg="3" xl="2" className="bg-warning px-0 m-0">
+        <Col xs="5" sm="4" md="4" lg="3" xl="2" className="bg-purple px-0 m-0">
           <Chanels />
         </Col>
         <Col className="px-0 d-flex flex-column h-100">

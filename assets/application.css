@@ -1,3 +1,7 @@
 .fade.in {
   opacity: 1;
 }
+
+.bg-purple {
+  background-color: #3f0e40;
+}
