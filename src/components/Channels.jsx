@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { Nav, Badge } from 'react-bootstrap';
-import UserNameContext from '../context';
+import context from '../context';
 import { withConnect } from '../decorators';
 
 const mapStateToProps = ({ channels, currentChannelId }) => {
@@ -12,6 +12,8 @@ const mapStateToProps = ({ channels, currentChannelId }) => {
   };
   return props;
 };
+
+const { UserNameContext } = context;
 
 @withConnect(mapStateToProps)
 class Chanels extends React.Component {

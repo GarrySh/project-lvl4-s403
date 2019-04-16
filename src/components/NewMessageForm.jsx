@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, SubmissionError } from 'redux-form';
 import { Form, InputGroup } from 'react-bootstrap';
-import UserNameContext from '../context';
+import context from '../context';
 import { withConnect, withForm } from '../decorators';
 
 const mapStateToProps = ({ currentChannelId }) => {
@@ -10,6 +10,8 @@ const mapStateToProps = ({ currentChannelId }) => {
   };
   return props;
 };
+
+const { UserNameContext } = context;
 
 @withForm('newMessage')
 @withConnect(mapStateToProps)

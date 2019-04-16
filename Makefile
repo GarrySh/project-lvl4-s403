@@ -2,7 +2,7 @@ start:
 	node dist/bin/slack.js
 
 start.dev:
-	npx nodemon --exec npx babel-node server/bin/slack.js
+	NODE_ENV=development npx nodemon --exec npx babel-node server/bin/slack.js
 
 install:
 	npm install

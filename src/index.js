@@ -1,7 +1,6 @@
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../scss/custom.scss';
 import '@fortawesome/fontawesome-free/js/all';
-import '../assets/application.css';
 import gon from 'gon';
 
 import getApp from './app';

@@ -15,7 +15,7 @@ import session from 'koa-generic-session';
 import _ from 'lodash';
 import addRoutes from './routes';
 
-import webpackConfig from '../webpack.config';
+import getWebpackConfig from '../webpack.config.babel';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = !isProduction;
@@ -29,7 +29,7 @@ export default () => {
   // app.use(serve(path.join(__dirname, '..', 'public')));
   if (isDevelopment) {
     koaWebpack({
-      config: webpackConfig,
+      config: getWebpackConfig(),
     }).then(middleware => {
       app.use(middleware);
     });
