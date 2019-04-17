@@ -2,19 +2,19 @@ import axios from 'axios';
 import { createAction } from 'redux-actions';
 import routes from '../routes';
 
-export const appConnect = createAction('APP_CONNECTED');
-export const appDisconnect = createAction('APP_DISCONNECTED');
-export const fetchDataFromGonSuccess = createAction('DATA_FETCH_SUCCESS');
+export const appConnected = createAction('APP_CONNECTED');
+export const appDisconnected = createAction('APP_DISCONNECTED');
+export const initAppSuccess = createAction('INIT_APP_SUCCESS');
 
-export const appInit = gon => dispatch => {
+export const initApp = gon => dispatch => {
   const { channels, messages, currentChannelId } = gon;
-  dispatch(appConnect());
-  dispatch(fetchDataFromGonSuccess({ channels, messages, currentChannelId }));
+  dispatch(appConnected());
+  dispatch(initAppSuccess({ channels, messages, currentChannelId }));
 };
 
-export const addMessageFromSocket = createAction('GET_MESSAGE_FROM_SOCKET');
+export const addMessage = createAction('ADD_MESSAGE');
 
-export const sendAddMessageRequest = ({ message }) => async () => {
+export const sendMessage = ({ message }) => async () => {
   const route = routes.messagesUrl(message.channelId);
   const apiRequest = {
     data: {
@@ -30,10 +30,10 @@ export const sendAddMessageRequest = ({ message }) => async () => {
 export const openModalForm = createAction('OPEN_MODAL_FORM');
 export const closeModalForm = createAction('CLOSE_MODAL_FORM');
 
-export const addChannelFromSocket = createAction('ADD_CHANNEL_FROM_SOCKET');
-export const changeCurrentChannel = createAction('CHANGE_CHANNEL');
+export const addChannel = createAction('ADD_CHANNEL');
+export const changeCurrentChannel = createAction('CHANGE_CURRENT_CHANNEL');
 
-export const sendAddChannelRequest = ({ channel }) => async () => {
+export const sendChannel = ({ channel }) => async () => {
   const route = routes.channelsUrl();
   const apiRequest = {
     data: {

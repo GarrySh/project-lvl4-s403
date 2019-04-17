@@ -47,20 +47,35 @@ class Chanels extends React.Component {
         <div className="p-3 lead text-white font-weight-bold">Channels</div>
         <Nav variant="pills" className="flex-column">
           {channels.map(channel => {
-            const channelClasses = cn({
-              'rounded-0 text-white py-1': true,
-              'active bg-secondary': channel.id === currentChannelId,
+            const { id, name, removable } = channel;
+            const channelLinkClasses = cn({
+              'rounded-0 text-white flex-grow-1 py-1': true,
+              'active bg-secondary': id === currentChannelId,
+            });
+            const channelIconClasses = cn({
+              'rounded-0 text-white p-1': true,
+              'active bg-secondary': id === currentChannelId,
             });
             return (
-              <Nav.Item key={channel.id} className="">
+              <Nav.Item key={id} className="d-flex align-items-center">
                 <Nav.Link
-                  className={channelClasses}
-                  href={`/channel/${channel.id}`}
-                  onClick={this.handleChannelChange(channel.id)}
+                  className={channelLinkClasses}
+                  href={`/channel/${id}`}
+                  onClick={this.handleChannelChange(id)}
                 >
                   <span className="fab fa-slack-hash mr-2" />
-                  {channel.name}
+                  {name}
                 </Nav.Link>
+                {removable && (
+                  <>
+                    <Nav.Link className={channelIconClasses}>
+                      <span className="far fa-edit" />
+                    </Nav.Link>
+                    <Nav.Link className={channelIconClasses}>
+                      <span className="fas fa-trash" />
+                    </Nav.Link>
+                  </>
+                )}
               </Nav.Item>
             );
           })}

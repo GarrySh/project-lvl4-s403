@@ -6,13 +6,13 @@ import * as actions from '../actions';
 
 const channels = handleActions(
   {
-    [actions.fetchDataFromGonSuccess](state, { payload }) {
+    [actions.initAppSuccess](state, { payload }) {
       return {
         byId: _.keyBy(payload.channels, 'id'),
         allIds: payload.channels.map(channel => channel.id),
       };
     },
-    [actions.addChannelFromSocket](state, { payload }) {
+    [actions.addChannel](state, { payload }) {
       const { allIds, byId } = state;
       const { channel } = payload;
       return {
@@ -26,10 +26,10 @@ const channels = handleActions(
 
 const messages = handleActions(
   {
-    [actions.fetchDataFromGonSuccess](state, { payload }) {
+    [actions.initAppSuccess](state, { payload }) {
       return payload.messages;
     },
-    [actions.addMessageFromSocket](state, { payload }) {
+    [actions.addMessage](state, { payload }) {
       return [...state, payload.message];
     },
   },
@@ -38,7 +38,7 @@ const messages = handleActions(
 
 const currentChannelId = handleActions(
   {
-    [actions.fetchDataFromGonSuccess](state, { payload }) {
+    [actions.initAppSuccess](state, { payload }) {
       return payload.currentChannelId;
     },
     [actions.changeCurrentChannel](state, { payload }) {
@@ -50,10 +50,10 @@ const currentChannelId = handleActions(
 
 const connectionStatus = handleActions(
   {
-    [actions.appConnect]() {
+    [actions.appConnected]() {
       return 'connected';
     },
-    [actions.appDisconnect]() {
+    [actions.appDisconnected]() {
       return 'disconnected';
     },
   },
