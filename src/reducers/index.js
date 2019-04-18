@@ -12,7 +12,7 @@ const channels = handleActions(
         allIds: payload.channels.map(channel => channel.id),
       };
     },
-    [actions.addChannel](state, { payload }) {
+    [actions.addChannelSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channel } = payload;
       return {
@@ -29,7 +29,7 @@ const messages = handleActions(
     [actions.initAppSuccess](state, { payload }) {
       return payload.messages;
     },
-    [actions.addMessage](state, { payload }) {
+    [actions.addMessageSuccess](state, { payload }) {
       return [...state, payload.message];
     },
   },

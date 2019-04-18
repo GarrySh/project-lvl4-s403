@@ -37,11 +37,11 @@ class ModalChannelForm extends React.Component {
   };
 
   handleSubmit = async ({ channelName }) => {
-    console.log({ channelName });
-    const { sendChannel, reset, closeModalForm } = this.props;
+    // console.log({ channelName });
+    const { addChannelRequest, reset, closeModalForm } = this.props;
     const channel = { name: channelName };
     try {
-      await sendChannel({ channel });
+      await addChannelRequest({ channel });
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }

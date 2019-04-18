@@ -9,7 +9,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 import App from './components/App';
-import { initApp, addMessage, addChannel, appDisconnected } from './actions';
+import { initAppRequest, addMessageSuccess, addChannelSuccess, appDisconnected } from './actions';
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -23,7 +23,7 @@ export default gon => {
   const socket = io.connect();
 
   socket.on('connect', () => {
-    store.dispatch(initApp(gon));
+    store.dispatch(initAppRequest(gon));
   });
 
   socket.on('disconnect', () => {
@@ -31,11 +31,11 @@ export default gon => {
   });
 
   socket.on('newMessage', res => {
-    store.dispatch(addMessage({ message: res.data.attributes }));
+    store.dispatch(addMessageSuccess({ message: res.data.attributes }));
   });
 
   socket.on('newChannel', res => {
-    store.dispatch(addChannel({ channel: res.data.attributes }));
+    store.dispatch(addChannelSuccess({ channel: res.data.attributes }));
   });
 
   render(

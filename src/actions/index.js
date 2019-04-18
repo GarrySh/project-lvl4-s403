@@ -4,17 +4,23 @@ import routes from '../routes';
 
 export const appConnected = createAction('APP_CONNECTED');
 export const appDisconnected = createAction('APP_DISCONNECTED');
+
+export const openModalForm = createAction('OPEN_MODAL_FORM');
+export const closeModalForm = createAction('CLOSE_MODAL_FORM');
+
+export const changeCurrentChannel = createAction('CHANGE_CURRENT_CHANNEL');
+
 export const initAppSuccess = createAction('INIT_APP_SUCCESS');
 
-export const initApp = gon => dispatch => {
+export const initAppRequest = gon => dispatch => {
   const { channels, messages, currentChannelId } = gon;
   dispatch(appConnected());
   dispatch(initAppSuccess({ channels, messages, currentChannelId }));
 };
 
-export const addMessage = createAction('ADD_MESSAGE');
+export const addMessageSuccess = createAction('ADD_MESSAGE_SUCCESS');
 
-export const sendMessage = ({ message }) => async () => {
+export const addMessageRequest = ({ message }) => async () => {
   const route = routes.messagesUrl(message.channelId);
   const apiRequest = {
     data: {
@@ -27,13 +33,9 @@ export const sendMessage = ({ message }) => async () => {
   await axios.post(route, apiRequest);
 };
 
-export const openModalForm = createAction('OPEN_MODAL_FORM');
-export const closeModalForm = createAction('CLOSE_MODAL_FORM');
+export const addChannelSuccess = createAction('ADD_CHANNEL_SUCCESS');
 
-export const addChannel = createAction('ADD_CHANNEL');
-export const changeCurrentChannel = createAction('CHANGE_CURRENT_CHANNEL');
-
-export const sendChannel = ({ channel }) => async () => {
+export const addChannelRequest = ({ channel }) => async () => {
   const route = routes.channelsUrl();
   const apiRequest = {
     data: {
