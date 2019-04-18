@@ -16,16 +16,16 @@ const channels = handleActions(
       const { allIds, byId } = state;
       const { channel } = payload;
       return {
-        allIds: [...allIds, channel.id],
         byId: { ...byId, [channel.id]: channel },
+        allIds: [...allIds, channel.id],
       };
     },
     [actions.removeChannelSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channelId } = payload;
       return {
-        allIds: allIds.filter(id => id !== channelId),
         byId: _.omit(byId, channelId),
+        allIds: allIds.filter(id => id !== channelId),
       };
     },
   },
@@ -35,13 +35,21 @@ const channels = handleActions(
 const messages = handleActions(
   {
     [actions.initAppSuccess](state, { payload }) {
-      return payload.messages;
+      return {
+        byId: _.keyBy(payload.messages, 'id'),
+        allIds: payload.messages.map(message => message.id),
+      };
     },
     [actions.addMessageSuccess](state, { payload }) {
-      return [...state, payload.message];
+      const { allIds, byId } = state;
+      const { message } = payload;
+      return {
+        byId: { ...byId, [message.id]: message },
+        allIds: [...allIds, message.id],
+      };
     },
   },
-  []
+  { byId: {}, allIds: [] }
 );
 
 const currentChannelId = handleActions(

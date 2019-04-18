@@ -14,15 +14,19 @@ export const channelsNameSelector = createSelector(
   channels => channels.map(channel => channel.name)
 );
 
-const getMessages = state => state.messages;
+const getMessagesById = state => state.messages.byId;
+const getMessageIds = state => state.messages.allIds;
 
 export const messagesSelector = createSelector(
-  getMessages,
-  messages =>
-    messages.map(message => ({
-      ...message,
-      date: format(message.date, 'HH:mm'),
-    }))
+  [getMessagesById, getMessageIds],
+  (byId, allIds) =>
+    allIds.map(id => {
+      const message = byId[id];
+      return {
+        ...message,
+        date: format(message.date, 'HH:mm'),
+      };
+    })
 );
 
 const getCurrentChannelId = state => state.currentChannelId;
