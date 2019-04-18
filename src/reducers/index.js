@@ -48,6 +48,21 @@ const messages = handleActions(
         allIds: [...allIds, message.id],
       };
     },
+    [actions.removeChannelSuccess](state, { payload }) {
+      const { allIds, byId } = state;
+      const { channelId } = payload;
+      const idsForRemove = [];
+      return {
+        byId: _.omitBy(byId, message => {
+          const compareResult = message.channelId === channelId;
+          if (compareResult) {
+            idsForRemove.push(message.id);
+          }
+          return compareResult;
+        }),
+        allIds: allIds.filter(id => !idsForRemove.includes(id)),
+      };
+    },
   },
   { byId: {}, allIds: [] }
 );
