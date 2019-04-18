@@ -31,8 +31,10 @@ class Chanels extends React.Component {
     openModalForm();
   };
 
-  handleChannelRemove = event => channelId => {
+  handleChannelRemove = channelId => event => {
     event.preventDefault();
+    const { removeChannelRequest } = this.props;
+    removeChannelRequest(channelId);
   };
 
   render() {
@@ -75,10 +77,7 @@ class Chanels extends React.Component {
                     <Nav.Link className={channelIconClasses}>
                       <span className="far fa-edit" />
                     </Nav.Link>
-                    <Nav.Link
-                      className={channelIconClasses}
-                      onChange={this.handleChannelRemove(id)}
-                    >
+                    <Nav.Link className={channelIconClasses} onClick={this.handleChannelRemove(id)}>
                       <span className="fas fa-trash" />
                     </Nav.Link>
                   </>

@@ -9,7 +9,13 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 import App from './components/App';
-import { initAppRequest, addMessageSuccess, addChannelSuccess, appDisconnected } from './actions';
+import {
+  initAppRequest,
+  addMessageSuccess,
+  addChannelSuccess,
+  appDisconnected,
+  removeChannelSuccess,
+} from './actions';
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -36,6 +42,10 @@ export default gon => {
 
   socket.on('newChannel', res => {
     store.dispatch(addChannelSuccess({ channel: res.data.attributes }));
+  });
+
+  socket.on('removeChannel', res => {
+    store.dispatch(removeChannelSuccess({ channelId: res.data.id }));
   });
 
   render(

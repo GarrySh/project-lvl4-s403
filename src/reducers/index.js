@@ -20,6 +20,14 @@ const channels = handleActions(
         byId: { ...byId, [channel.id]: channel },
       };
     },
+    [actions.removeChannelSuccess](state, { payload }) {
+      const { allIds, byId } = state;
+      const { channelId } = payload;
+      return {
+        allIds: allIds.filter(id => id !== channelId),
+        byId: _.omit(byId, channelId),
+      };
+    },
   },
   { byId: {}, allIds: [] }
 );

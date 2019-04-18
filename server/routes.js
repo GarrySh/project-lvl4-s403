@@ -19,12 +19,16 @@ export default (router, io) => {
 
   const apiRouter = new Router();
   apiRouter
-    .get('/channels', (ctx) => {
+    .get('/channels', ctx => {
       ctx.body = state.channels;
       ctx.status = 301;
     })
-    .post('/channels', (ctx) => {
-      const { data: { attributes: { name } } } = ctx.request.body;
+    .post('/channels', ctx => {
+      const {
+        data: {
+          attributes: { name },
+        },
+      } = ctx.request.body;
       const channel = {
         name,
         removable: true,
@@ -43,7 +47,7 @@ export default (router, io) => {
 
       io.emit('newChannel', data);
     })
-    .delete('/channels/:id', (ctx) => {
+    .delete('/channels/:id', ctx => {
       const channelId = Number(ctx.params.id);
       state.channels = state.channels.filter(c => c.id !== channelId);
       state.messages = state.messages.filter(m => m.channelId !== channelId);
@@ -56,7 +60,7 @@ export default (router, io) => {
       };
       io.emit('removeChannel', data);
     })
-    .patch('/channels/:id', (ctx) => {
+    .patch('/channels/:id', ctx => {
       const channelId = Number(ctx.params.id);
       const channel = state.channels.find(c => c.id === channelId);
 
@@ -72,7 +76,7 @@ export default (router, io) => {
       };
       io.emit('renameChannel', data);
     })
-    .get('/channels/:channelId/messages', (ctx) => {
+    .get('/channels/:channelId/messages', ctx => {
       const messages = state.messages.filter(m => m.channelId === Number(ctx.params.channelId));
       const resources = messages.map(m => ({
         type: 'messages',
@@ -81,8 +85,10 @@ export default (router, io) => {
       }));
       ctx.body = resources;
     })
-    .post('/channels/:channelId/messages', (ctx) => {
-      const { data: { attributes } } = ctx.request.body;
+    .post('/channels/:channelId/messages', ctx => {
+      const {
+        data: { attributes },
+      } = ctx.request.body;
       const message = {
         ...attributes,
         channelId: Number(ctx.params.channelId),
@@ -102,7 +108,7 @@ export default (router, io) => {
     });
 
   return router
-    .get('root', '/', (ctx) => {
+    .get('root', '/', ctx => {
       ctx.render('index', { gon: state });
     })
     .use('/api/v1', apiRouter.routes(), apiRouter.allowedMethods());

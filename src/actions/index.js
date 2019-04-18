@@ -46,3 +46,10 @@ export const addChannelRequest = ({ channel }) => async () => {
   };
   await axios.post(route, apiRequest);
 };
+
+export const removeChannelRequest = channelId => async () => {
+  const route = routes.channelUrl(channelId);
+  await axios.delete(route);
+};
+
+export const removeChannelSuccess = createAction('REMOVE_CHANNEL_SUCCESS');
