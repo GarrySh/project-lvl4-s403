@@ -27,8 +27,14 @@ class Chanels extends React.Component {
 
   handleChannelAdd = event => {
     event.preventDefault();
-    const { openModalForm } = this.props;
-    openModalForm();
+    const { registerChannelRequest } = this.props;
+    registerChannelRequest();
+  };
+
+  handleChannelEdit = channelId => event => {
+    event.preventDefault();
+    const { editChannelRequest } = this.props;
+    editChannelRequest({ initialValues: { channelName: 'initisssss', test: 'tttt' } });
   };
 
   handleChannelRemove = channelId => event => {
@@ -54,13 +60,17 @@ class Chanels extends React.Component {
         <Nav variant="pills" className="flex-column">
           {channels.map(channel => {
             const { id, name, removable } = channel;
-            const channelLinkClasses = cn({
-              'rounded-0 text-white flex-grow-1 py-1': true,
+            const commonClassNames = {
+              'rounded-0 text-white': true,
               'active bg-secondary': id === currentChannelId,
+            };
+            const channelLinkClasses = cn({
+              ...commonClassNames,
+              'flex-grow-1 py-1': true,
             });
             const channelIconClasses = cn({
-              'rounded-0 text-white p-1': true,
-              'active bg-secondary': id === currentChannelId,
+              ...commonClassNames,
+              ' p-1': true,
             });
             return (
               <Nav.Item key={id} className="d-flex align-items-center">
@@ -74,7 +84,7 @@ class Chanels extends React.Component {
                 </Nav.Link>
                 {removable && (
                   <>
-                    <Nav.Link className={channelIconClasses}>
+                    <Nav.Link className={channelIconClasses} onClick={this.handleChannelEdit(id)}>
                       <span className="far fa-edit" />
                     </Nav.Link>
                     <Nav.Link className={channelIconClasses} onClick={this.handleChannelRemove(id)}>

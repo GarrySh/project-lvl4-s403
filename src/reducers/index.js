@@ -91,22 +91,32 @@ const connectionStatus = handleActions(
   'none'
 );
 
-const uiState = handleActions(
+const channelsUIState = handleActions(
   {
-    [actions.openModalForm](state) {
+    [actions.registerChannelRequest](state) {
       return {
         ...state,
+        initialValues: { channelName: 'initisss', test: 'ttt' },
         displayModalForm: true,
       };
     },
-    [actions.closeModalForm](state) {
+    [actions.registerChannelSuccess](state) {
       return {
         ...state,
+        initialValues: { channelName: '12', test: '12' },
+        displayModalForm: false,
+      };
+    },
+    [actions.editChannelRequest](state, { payload }) {
+      const { initialValues } = payload;
+      return {
+        ...state,
+        initialValues,
         displayModalForm: false,
       };
     },
   },
-  { displayModalForm: false }
+  { displayModalForm: true, initialValues: { channelName: '1', test: '1' } }
 );
 
 export default combineReducers({
@@ -114,6 +124,6 @@ export default combineReducers({
   channels,
   messages,
   connectionStatus,
-  uiState,
+  channelsUIState,
   form: formReducer,
 });

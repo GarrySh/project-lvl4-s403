@@ -6,9 +6,16 @@ import { exclusion, length } from 'redux-form-validators';
 import { withForm, withConnect } from '../decorators';
 import { channelsNameSelector } from '../selectors';
 
+const initialValues = { channelName: 'initisss', test: 'ttt' };
+
 const mapStateToProps = state => {
-  const { displayModalForm } = state.uiState;
-  const props = { displayModalForm, channels: channelsNameSelector(state) };
+  const { displayModalForm } = state.channelsUIState;
+  console.log('initialValues', initialValues);
+  const props = {
+    displayModalForm,
+    channels: channelsNameSelector(state),
+    initialValues,
+  };
   return props;
 };
 
@@ -32,13 +39,12 @@ const renderField = ({ input, label, type, meta: { error, pristine } }) => {
 @withConnect(mapStateToProps)
 class ModalChannelForm extends React.Component {
   handleFormClose = () => {
-    const { closeModalForm } = this.props;
-    closeModalForm();
+    const { registerChannelSuccess } = this.props;
+    registerChannelSuccess();
   };
 
   handleSubmit = async ({ channelName }) => {
-    // console.log({ channelName });
-    const { addChannelRequest, reset, closeModalForm } = this.props;
+    const { addChannelRequest, reset, registerChannelSuccess } = this.props;
     const channel = { name: channelName };
     try {
       await addChannelRequest({ channel });
@@ -46,12 +52,12 @@ class ModalChannelForm extends React.Component {
       throw new SubmissionError({ _error: err.message });
     }
     reset();
-    closeModalForm();
+    registerChannelSuccess();
   };
 
   render() {
     const { channels, handleSubmit, submitting, pristine, valid, displayModalForm } = this.props;
-
+    console.log('modal props', this.props);
     return (
       <Modal show={displayModalForm} onHide={this.handleFormClose}>
         <Form onSubmit={handleSubmit(this.handleSubmit)}>
@@ -69,6 +75,7 @@ class ModalChannelForm extends React.Component {
                 exclusion({ in: channels, caseSensitive: false, msg: 'name is not unique' }),
               ]}
             />
+            <Field name="test" type="text" component="input" value="sd" />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleFormClose}>
