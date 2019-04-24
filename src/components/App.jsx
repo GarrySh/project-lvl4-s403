@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import Chanels from './Channels';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
-import ModalChannelForm from './ModalChannelForm';
+import ChannelModalForm from './ChannelModalForm';
 import context from '../context';
 import AppAlert from './AppAlert';
 
@@ -26,7 +26,7 @@ const App = props => {
             <NewMessageForm />
           </Row>
         </Col>
-        <ModalChannelForm />
+        <ChannelModalForm />
       </Row>
     </UserNameContext.Provider>
   );

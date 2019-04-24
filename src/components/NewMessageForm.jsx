@@ -20,7 +20,6 @@ class newMessageForm extends React.Component {
 
   handleSubmit = async values => {
     const { addMessageRequest, reset, currentChannelId } = this.props;
-    // console.log('props', this.props);
     const message = { ...values, userName: this.context, channelId: currentChannelId };
     try {
       await addMessageRequest({ message });

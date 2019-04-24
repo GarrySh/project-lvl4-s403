@@ -1,20 +1,19 @@
 import React from 'react';
 import cn from 'classnames';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { Field, SubmissionError } from 'redux-form';
+import { Field, SubmissionError, reduxForm } from 'redux-form';
 import { exclusion, length } from 'redux-form-validators';
-import { withForm, withConnect } from '../decorators';
+import { connect } from 'react-redux';
+// import { withForm, withConnect } from '../decorators';
 import { channelsNameSelector } from '../selectors';
-
-const initialValues = { channelName: 'initisss', test: 'ttt' };
+import * as actionCreators from '../actions';
 
 const mapStateToProps = state => {
-  const { displayModalForm } = state.channelsUIState;
-  console.log('initialValues', initialValues);
+  const { displayModalForm } = state.UIState;
   const props = {
     displayModalForm,
     channels: channelsNameSelector(state),
-    initialValues,
+    initialValues: state.UIState.channelFormInitialValues,
   };
   return props;
 };
@@ -35,8 +34,9 @@ const renderField = ({ input, label, type, meta: { error, pristine } }) => {
   );
 };
 
-@withForm('channelName')
-@withConnect(mapStateToProps)
+// initialValue in mapStateToProps does not work when @decorators are used, in redux-form
+// @withForm('channelName')
+// @withConnect(mapStateToProps)
 class ModalChannelForm extends React.Component {
   handleFormClose = () => {
     const { registerChannelSuccess } = this.props;
@@ -57,9 +57,10 @@ class ModalChannelForm extends React.Component {
 
   render() {
     const { channels, handleSubmit, submitting, pristine, valid, displayModalForm } = this.props;
-    console.log('modal props', this.props);
+    const isShow = displayModalForm === 'channelEdit';
+    // console.log('modal props', this.props);
     return (
-      <Modal show={displayModalForm} onHide={this.handleFormClose}>
+      <Modal show={isShow} onHide={this.handleFormClose}>
         <Form onSubmit={handleSubmit(this.handleSubmit)}>
           <Modal.Header closeButton>
             <Modal.Title>Add new channel</Modal.Title>
@@ -75,7 +76,6 @@ class ModalChannelForm extends React.Component {
                 exclusion({ in: channels, caseSensitive: false, msg: 'name is not unique' }),
               ]}
             />
-            <Field name="test" type="text" component="input" value="sd" />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleFormClose}>
@@ -91,4 +91,14 @@ class ModalChannelForm extends React.Component {
   }
 }
 
-export default ModalChannelForm;
+const ConnectedNewTaskForm = reduxForm({
+  form: 'channelName',
+  enableReinitialize: true,
+})(ModalChannelForm);
+
+export default connect(
+  mapStateToProps,
+  actionCreators
+)(ConnectedNewTaskForm);
+
+// export default ModalChannelForm;

@@ -34,7 +34,8 @@ class Chanels extends React.Component {
   handleChannelEdit = channelId => event => {
     event.preventDefault();
     const { editChannelRequest } = this.props;
-    editChannelRequest({ initialValues: { channelName: 'initisssss', test: 'tttt' } });
+    const channelFormInitialValues = { channelName: 'initisssss' };
+    editChannelRequest({ channelFormInitialValues, channelId });
   };
 
   handleChannelRemove = channelId => event => {
