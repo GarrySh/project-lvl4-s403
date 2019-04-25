@@ -5,21 +5,25 @@ import { Field, SubmissionError, reduxForm } from 'redux-form';
 import { exclusion, length } from 'redux-form-validators';
 import { connect } from 'react-redux';
 // import { withForm, withConnect } from '../decorators';
-import { channelsNameSelector } from '../selectors';
+import { channelsNameSelector, getChannelsById } from '../selectors';
 import * as actionCreators from '../actions';
 
 const mapStateToProps = state => {
-  const { displayModalForm } = state.UIState;
+  const { displayModalForm, channelIdToEdit, isEdit } = state.UIState;
+  const defaultInitialValues = { channelName: '' };
   const props = {
     displayModalForm,
-    channels: channelsNameSelector(state),
-    initialValues: state.UIState.channelFormInitialValues,
+    channelNames: channelsNameSelector(state),
+    isEdit: state.UIState.isEdit,
+    channelIdToEdit,
+    initialValues: isEdit
+      ? { channelName: getChannelsById(state)[channelIdToEdit].name }
+      : defaultInitialValues,
   };
   return props;
 };
 
 const renderField = ({ input, label, type, meta: { error, pristine, submitting } }) => {
-  console.log('submitting', submitting);
   const channelNameClass = cn({
     'form-control': true,
     'is-invalid': !pristine && !submitting && error,
@@ -40,15 +44,27 @@ const renderField = ({ input, label, type, meta: { error, pristine, submitting }
 // @withConnect(mapStateToProps)
 class ModalChannelForm extends React.Component {
   handleFormClose = () => {
-    const { registerChannelSuccess } = this.props;
+    const { registerChannelSuccess, reset } = this.props;
+    reset();
     registerChannelSuccess();
   };
 
   handleSubmit = async ({ channelName }) => {
-    const { addChannelRequest, reset, registerChannelSuccess } = this.props;
-    const channel = { name: channelName };
+    const {
+      addChannelRequest,
+      renameChannelRequest,
+      reset,
+      registerChannelSuccess,
+      isEdit,
+      channelIdToEdit,
+    } = this.props;
+
     try {
-      await addChannelRequest({ channel });
+      if (isEdit) {
+        await renameChannelRequest({ channel: { name: channelName, id: channelIdToEdit } });
+      } else {
+        await addChannelRequest({ channel: { name: channelName } });
+      }
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }
@@ -57,9 +73,17 @@ class ModalChannelForm extends React.Component {
   };
 
   render() {
-    const { channels, handleSubmit, submitting, pristine, valid, displayModalForm } = this.props;
+    const {
+      channelNames,
+      handleSubmit,
+      submitting,
+      pristine,
+      valid,
+      displayModalForm,
+    } = this.props;
+
     const isShow = displayModalForm === 'channelEdit';
-    // console.log('modal props', this.props);
+
     return (
       <Modal show={isShow} onHide={this.handleFormClose}>
         <Form onSubmit={handleSubmit(this.handleSubmit)}>
@@ -74,7 +98,7 @@ class ModalChannelForm extends React.Component {
               label="Enter a unique channel name"
               validate={[
                 length({ minimum: 3 }),
-                exclusion({ in: channels, caseSensitive: false, msg: 'name is not unique' }),
+                exclusion({ in: channelNames, caseSensitive: false, msg: 'name is not unique' }),
               ]}
             />
           </Modal.Body>

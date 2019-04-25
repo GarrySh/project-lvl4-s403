@@ -102,21 +102,25 @@ const UIState = handleActions(
     [actions.registerChannelSuccess](state) {
       return {
         ...state,
-        channelFormInitialValues: { channelName: '' },
         displayModalForm: 'none',
+        isEdit: false,
       };
     },
     [actions.editChannelRequest](state, { payload }) {
-      const { channelFormInitialValues, channelId } = payload;
+      const { channelId } = payload;
       return {
         ...state,
         channelIdToEdit: channelId,
-        channelFormInitialValues,
         displayModalForm: 'channelEdit',
+        isEdit: true,
       };
     },
   },
-  { displayModalForm: 'none', channelIdToEdit: 0, channelFormInitialValues: { channelName: '' } }
+  {
+    displayModalForm: 'none',
+    isEdit: false,
+    channelIdToEdit: 0,
+  }
 );
 
 export default combineReducers({

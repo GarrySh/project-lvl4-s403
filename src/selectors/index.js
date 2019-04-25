@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { format } from 'date-fns';
 
-const getChannelsById = state => state.channels.byId;
+export const getChannelsById = state => state.channels.byId;
 const getChannelIds = state => state.channels.allIds;
 
 export const channelsSelector = createSelector(
