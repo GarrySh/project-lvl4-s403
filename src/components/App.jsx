@@ -1,11 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import context from '../context';
+import AppAlert from './AppAlert';
 import Chanels from './Channels';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 import ChannelModalForm from './ChannelModalForm';
-import context from '../context';
-import AppAlert from './AppAlert';
+import ChannelDeleteModalForm from './ChannelDeleteModalForm';
 
 const App = props => {
   const { userName } = props;
@@ -27,6 +28,7 @@ const App = props => {
           </Row>
         </Col>
         <ChannelModalForm />
+        <ChannelDeleteModalForm />
       </Row>
     </UserNameContext.Provider>
   );

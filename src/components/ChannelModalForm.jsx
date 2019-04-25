@@ -9,15 +9,15 @@ import { channelsNameSelector, getChannelsById } from '../selectors';
 import * as actionCreators from '../actions';
 
 const mapStateToProps = state => {
-  const { displayModalForm, channelIdToEdit, isEdit } = state.UIState;
+  const { displayModalForm, channelId, isEdit } = state.UIState;
   const defaultInitialValues = { channelName: '' };
   const props = {
     displayModalForm,
     channelNames: channelsNameSelector(state),
     isEdit: state.UIState.isEdit,
-    channelIdToEdit,
+    channelId,
     initialValues: isEdit
-      ? { channelName: getChannelsById(state)[channelIdToEdit].name }
+      ? { channelName: getChannelsById(state)[channelId].name }
       : defaultInitialValues,
   };
   return props;
@@ -56,12 +56,12 @@ class ModalChannelForm extends React.Component {
       reset,
       registerChannelSuccess,
       isEdit,
-      channelIdToEdit,
+      channelId,
     } = this.props;
 
     try {
       if (isEdit) {
-        await renameChannelRequest({ channel: { name: channelName, id: channelIdToEdit } });
+        await renameChannelRequest({ channel: { name: channelName, id: channelId } });
       } else {
         await addChannelRequest({ channel: { name: channelName } });
       }

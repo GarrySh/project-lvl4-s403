@@ -118,16 +118,30 @@ const UIState = handleActions(
       const { channelId } = payload;
       return {
         ...state,
-        channelIdToEdit: channelId,
+        channelId,
         displayModalForm: 'channelEdit',
         isEdit: true,
+      };
+    },
+    [actions.removeChannelConfirm](state, { payload }) {
+      const { channelId } = payload;
+      return {
+        ...state,
+        channelId,
+        displayModalForm: 'channelDelete',
+      };
+    },
+    [actions.removeChannelConfirmFinish](state) {
+      return {
+        ...state,
+        displayModalForm: 'none',
       };
     },
   },
   {
     displayModalForm: 'none',
     isEdit: false,
-    channelIdToEdit: 0,
+    channelId: 0,
   }
 );
 

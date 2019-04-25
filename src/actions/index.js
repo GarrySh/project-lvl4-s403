@@ -68,3 +68,6 @@ export const renameChannelRequest = ({ channel }) => async () => {
   };
   await axios.patch(route, apiRequest);
 };
+
+export const removeChannelConfirm = createAction('REMOVE_CHANNEL_CONFIRM');
+export const removeChannelConfirmFinish = createAction('REMOVE_CHANNEL_CONFIRM_FINISH');

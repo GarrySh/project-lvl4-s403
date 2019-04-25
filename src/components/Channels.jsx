@@ -38,10 +38,10 @@ class Chanels extends React.Component {
     editChannelRequest({ channelId });
   };
 
-  handleChannelRemove = channelId => event => {
+  handleChannelRemoveConfirm = channelId => event => {
     event.preventDefault();
-    const { removeChannelRequest } = this.props;
-    removeChannelRequest(channelId);
+    const { removeChannelConfirm } = this.props;
+    removeChannelConfirm(channelId);
   };
 
   render() {
@@ -88,7 +88,10 @@ class Chanels extends React.Component {
                     <Nav.Link className={channelIconClasses} onClick={this.handleChannelEdit(id)}>
                       <span className="far fa-edit" />
                     </Nav.Link>
-                    <Nav.Link className={channelIconClasses} onClick={this.handleChannelRemove(id)}>
+                    <Nav.Link
+                      className={channelIconClasses}
+                      onClick={this.handleChannelRemoveConfirm({ channelId: id })}
+                    >
                       <span className="fas fa-trash" />
                     </Nav.Link>
                   </>
