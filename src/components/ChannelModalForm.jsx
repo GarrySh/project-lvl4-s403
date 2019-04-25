@@ -18,11 +18,12 @@ const mapStateToProps = state => {
   return props;
 };
 
-const renderField = ({ input, label, type, meta: { error, pristine } }) => {
+const renderField = ({ input, label, type, meta: { error, pristine, submitting } }) => {
+  console.log('submitting', submitting);
   const channelNameClass = cn({
     'form-control': true,
-    'is-invalid': !pristine && error,
-    'is-valid': !pristine && !error,
+    'is-invalid': !pristine && !submitting && error,
+    'is-valid': !pristine && !submitting && !error,
   });
 
   return (
