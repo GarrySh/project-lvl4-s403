@@ -15,6 +15,7 @@ import {
   addChannelSuccess,
   appDisconnected,
   removeChannelSuccess,
+  renameChannelSuccess,
 } from './actions';
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
@@ -46,6 +47,10 @@ export default gon => {
 
   socket.on('removeChannel', res => {
     store.dispatch(removeChannelSuccess({ channelId: res.data.id }));
+  });
+
+  socket.on('renameChannel', res => {
+    store.dispatch(renameChannelSuccess({ channel: res.data.attributes }));
   });
 
   render(

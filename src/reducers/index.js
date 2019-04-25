@@ -28,6 +28,14 @@ const channels = handleActions(
         allIds: allIds.filter(id => id !== channelId),
       };
     },
+    [actions.renameChannelSuccess](state, { payload }) {
+      const { allIds, byId } = state;
+      const { channel } = payload;
+      return {
+        byId: { ...byId, [channel.id]: channel },
+        allIds,
+      };
+    },
   },
   { byId: {}, allIds: [] }
 );

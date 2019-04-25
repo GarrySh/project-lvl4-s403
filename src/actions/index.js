@@ -54,8 +54,8 @@ export const removeChannelRequest = channelId => async () => {
   await axios.delete(route);
 };
 
-export const renameChannelSuccess = createAction('REMOVE_CHANNEL_SUCCESS');
-export const editChannelRequest = createAction('RENAME_CHANNEL_REQUEST');
+export const editChannelRequest = createAction('EDIT_CHANNEL_REQUEST');
+export const renameChannelSuccess = createAction('RENAME_CHANNEL_SUCCESS');
 
 export const renameChannelRequest = ({ channel }) => async () => {
   const route = routes.channelUrl(channel.id);

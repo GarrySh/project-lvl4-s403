@@ -45,8 +45,8 @@ const renderField = ({ input, label, type, meta: { error, pristine, submitting }
 class ModalChannelForm extends React.Component {
   handleFormClose = () => {
     const { registerChannelSuccess, reset } = this.props;
-    reset();
     registerChannelSuccess();
+    reset();
   };
 
   handleSubmit = async ({ channelName }) => {
@@ -68,8 +68,8 @@ class ModalChannelForm extends React.Component {
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }
-    reset();
     registerChannelSuccess();
+    reset();
   };
 
   render() {
