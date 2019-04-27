@@ -5,9 +5,6 @@ import routes from '../routes';
 export const appConnected = createAction('APP_CONNECTED');
 export const appDisconnected = createAction('APP_DISCONNECTED');
 
-export const registerChannelRequest = createAction('REGISTER_CHANNEL_REQUEST');
-export const registerChannelSuccess = createAction('REGISTER_CHANNEL_SUCCESS');
-
 export const changeCurrentChannel = createAction('CHANGE_CURRENT_CHANNEL');
 
 export const initAppSuccess = createAction('INIT_APP_SUCCESS');
@@ -54,7 +51,10 @@ export const removeChannelRequest = channelId => async () => {
   await axios.delete(route);
 };
 
-export const editChannelRequest = createAction('EDIT_CHANNEL_REQUEST');
+export const editChannelProcessStart = createAction('EDIT_CHANNEL_PROCESS_START');
+export const addChannelProcessStart = createAction('ADD_CHANNEL_PROCESS_START');
+export const editChannelProcessFinish = createAction('EDIT_CHANNEL_PROCESS_FINISH');
+
 export const renameChannelSuccess = createAction('RENAME_CHANNEL_SUCCESS');
 
 export const renameChannelRequest = ({ channel }) => async () => {
@@ -69,5 +69,5 @@ export const renameChannelRequest = ({ channel }) => async () => {
   await axios.patch(route, apiRequest);
 };
 
-export const removeChannelConfirm = createAction('REMOVE_CHANNEL_CONFIRM');
-export const removeChannelConfirmFinish = createAction('REMOVE_CHANNEL_CONFIRM_FINISH');
+export const removeChannelProcessStart = createAction('REMOVE_CHANNEL_PROCESS_START');
+export const removeChannelProcessFinish = createAction('REMOVE_CHANNEL_PROCESS_FINISH');

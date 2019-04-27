@@ -5,8 +5,8 @@ import AppAlert from './AppAlert';
 import Chanels from './Channels';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
-import ChannelModalForm from './ChannelModalForm';
-import ChannelDeleteModalForm from './ChannelDeleteModalForm';
+import EditChannelForm from './EditChannelForm';
+import DeleteChannelForm from './DeleteChannelForm';
 
 const App = props => {
   const { userName } = props;
@@ -27,9 +27,9 @@ const App = props => {
             <NewMessageForm />
           </Row>
         </Col>
-        <ChannelModalForm />
-        <ChannelDeleteModalForm />
       </Row>
+      <EditChannelForm />
+      <DeleteChannelForm />
     </UserNameContext.Provider>
   );
 };

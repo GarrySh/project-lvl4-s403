@@ -9,7 +9,7 @@ export const channelsSelector = createSelector(
   (byId, allIds) => allIds.map(id => byId[id])
 );
 
-export const channelsNameSelector = createSelector(
+export const channelNamesSelector = createSelector(
   [channelsSelector],
   channels => channels.map(channel => channel.name)
 );

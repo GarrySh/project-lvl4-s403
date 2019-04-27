@@ -1,39 +1,38 @@
 import React from 'react';
+import { SubmissionError } from 'redux-form';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { Field, SubmissionError } from 'redux-form';
 import { withConnect, withForm } from '../decorators';
-import { getChannelsById } from '../selectors';
 
 const mapStateToProps = state => {
-  const { displayModalForm, channelId } = state.UIState;
+  const { isShow, channelId, channelName } = state.UIStateDeleteChannel;
   return {
-    displayModalForm,
-    // channel: getChannelsById[channelId],
+    isShow,
     channelId,
+    channelName,
   };
 };
 
-@withForm('channelDelete')
+@withForm('deleteChannel')
 @withConnect(mapStateToProps)
-class ChannelDeleteModalForm extends React.Component {
+class DeleteModalForm extends React.Component {
   handleFormClose = () => {
-    const { removeChannelConfirmFinish } = this.props;
-    removeChannelConfirmFinish();
+    const { removeChannelProcessFinish } = this.props;
+    removeChannelProcessFinish();
   };
 
-  handleSubmit = async channelId => {
-    console.log(channelId);
-    const { removeChannelRequest } = this.props;
+  handleSubmit = async () => {
+    const { removeChannelRequest, removeChannelProcessFinish, channelId } = this.props;
     try {
       await removeChannelRequest(channelId);
+      removeChannelProcessFinish();
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }
   };
 
   render() {
-    const { displayModalForm, channel, handleSubmit, submitting } = this.props;
-    const isShow = displayModalForm === 'channelDelete';
+    console.log('render form ', this.props);
+    const { channelName, handleSubmit, submitting, error, isShow } = this.props;
 
     return (
       <Modal show={isShow} onHide={this.handleFormClose}>
@@ -44,17 +43,17 @@ class ChannelDeleteModalForm extends React.Component {
 
           <Modal.Body>
             <p>
-              Do you really want to delete channel
-              {/* {channel.name} */}
-              \? This process cannot be undone.
+              {'Do you really want to delete channel '}
+              <b className="text-danger">{channelName}</b>
+              {'? This process cannot be undone.'}
             </p>
+            {error && <div className="mx-2 text-danger">{error}</div>}
           </Modal.Body>
 
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleFormClose}>
               Cancel
             </Button>
-            {/* id */}
             <Button type="submit" variant="danger" disabled={submitting}>
               Delete
             </Button>
@@ -65,4 +64,4 @@ class ChannelDeleteModalForm extends React.Component {
   }
 }
 
-export default ChannelDeleteModalForm;
+export default DeleteModalForm;

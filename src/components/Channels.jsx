@@ -3,12 +3,12 @@ import cn from 'classnames';
 import { Nav, Badge } from 'react-bootstrap';
 import context from '../context';
 import { withConnect } from '../decorators';
+import { channelsSelector } from '../selectors';
 
-const mapStateToProps = ({ channels, currentChannelId }) => {
-  const { byId, allIds } = channels;
+const mapStateToProps = state => {
   const props = {
-    channels: allIds.map(id => byId[id]),
-    currentChannelId,
+    channels: channelsSelector(state),
+    currentChannelId: state.currentChannelId,
   };
   return props;
 };
@@ -19,29 +19,28 @@ const { UserNameContext } = context;
 class Chanels extends React.Component {
   static contextType = UserNameContext;
 
-  handleChannelChange = id => event => {
+  handleClickChannel = id => event => {
     event.preventDefault();
     const { changeCurrentChannel } = this.props;
     changeCurrentChannel({ currentChannelId: id });
   };
 
-  handleChannelAdd = event => {
+  handleClickAddChannel = event => {
     event.preventDefault();
-    const { registerChannelRequest } = this.props;
-    registerChannelRequest();
+    const { addChannelProcessStart } = this.props;
+    addChannelProcessStart();
   };
 
-  handleChannelEdit = channelId => event => {
+  handleClickEdit = (channelId, channelName) => event => {
     event.preventDefault();
-    const { editChannelRequest } = this.props;
-    // const channelFormInitialValues = { channelName: 'initisssss' };
-    editChannelRequest({ channelId });
+    const { editChannelProcessStart } = this.props;
+    editChannelProcessStart({ channelId, channelName });
   };
 
-  handleChannelRemoveConfirm = channelId => event => {
+  handleClickDelete = (channelId, channelName) => event => {
     event.preventDefault();
-    const { removeChannelConfirm } = this.props;
-    removeChannelConfirm(channelId);
+    const { removeChannelProcessStart } = this.props;
+    removeChannelProcessStart({ channelId, channelName });
   };
 
   render() {
@@ -78,19 +77,22 @@ class Chanels extends React.Component {
                 <Nav.Link
                   className={channelLinkClasses}
                   href={`/channel/${id}`}
-                  onClick={this.handleChannelChange(id)}
+                  onClick={this.handleClickChannel(id)}
                 >
                   <span className="fab fa-slack-hash mr-2" />
                   {name}
                 </Nav.Link>
                 {removable && (
                   <>
-                    <Nav.Link className={channelIconClasses} onClick={this.handleChannelEdit(id)}>
+                    <Nav.Link
+                      className={channelIconClasses}
+                      onClick={this.handleClickEdit(id, name)}
+                    >
                       <span className="far fa-edit" />
                     </Nav.Link>
                     <Nav.Link
                       className={channelIconClasses}
-                      onClick={this.handleChannelRemoveConfirm({ channelId: id })}
+                      onClick={this.handleClickDelete(id, name)}
                     >
                       <span className="fas fa-trash" />
                     </Nav.Link>
@@ -99,7 +101,7 @@ class Chanels extends React.Component {
               </Nav.Item>
             );
           })}
-          <Nav.Link className="mt-3 text-white" onClick={this.handleChannelAdd}>
+          <Nav.Link className="mt-3 text-white" onClick={this.handleClickAddChannel}>
             <span className="fas fa-plus mr-2" />
             Add new channel
           </Nav.Link>

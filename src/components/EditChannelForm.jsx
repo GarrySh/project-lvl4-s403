@@ -5,22 +5,18 @@ import { Field, SubmissionError, reduxForm } from 'redux-form';
 import { exclusion, length } from 'redux-form-validators';
 import { connect } from 'react-redux';
 // import { withForm, withConnect } from '../decorators';
-import { channelsNameSelector, getChannelsById } from '../selectors';
+import { channelNamesSelector } from '../selectors';
 import * as actionCreators from '../actions';
 
 const mapStateToProps = state => {
-  const { displayModalForm, channelId, isEdit } = state.UIState;
-  const defaultInitialValues = { channelName: '' };
-  const props = {
-    displayModalForm,
-    channelNames: channelsNameSelector(state),
-    isEdit: state.UIState.isEdit,
+  const { isShow, isEdit, channelId, channelName } = state.UIStateEditChannel;
+  return {
+    isShow,
+    isEdit,
     channelId,
-    initialValues: isEdit
-      ? { channelName: getChannelsById(state)[channelId].name }
-      : defaultInitialValues,
+    channelNames: channelNamesSelector(state),
+    initialValues: { channelName },
   };
-  return props;
 };
 
 const renderField = ({ input, label, type, meta: { error, pristine, submitting } }) => {
@@ -44,8 +40,8 @@ const renderField = ({ input, label, type, meta: { error, pristine, submitting }
 // @withConnect(mapStateToProps)
 class ModalChannelForm extends React.Component {
   handleFormClose = () => {
-    const { registerChannelSuccess, reset } = this.props;
-    registerChannelSuccess();
+    const { editChannelProcessFinish, reset } = this.props;
+    editChannelProcessFinish();
     reset();
   };
 
@@ -54,7 +50,7 @@ class ModalChannelForm extends React.Component {
       addChannelRequest,
       renameChannelRequest,
       reset,
-      registerChannelSuccess,
+      editChannelProcessFinish,
       isEdit,
       channelId,
     } = this.props;
@@ -68,21 +64,12 @@ class ModalChannelForm extends React.Component {
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }
-    registerChannelSuccess();
+    editChannelProcessFinish();
     reset();
   };
 
   render() {
-    const {
-      channelNames,
-      handleSubmit,
-      submitting,
-      pristine,
-      valid,
-      displayModalForm,
-    } = this.props;
-
-    const isShow = displayModalForm === 'channelEdit';
+    const { channelNames, handleSubmit, submitting, pristine, valid, isShow } = this.props;
 
     return (
       <Modal show={isShow} onHide={this.handleFormClose}>

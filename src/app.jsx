@@ -57,6 +57,6 @@ export default gon => {
     <Provider store={store}>
       <App userName={userName} />
     </Provider>,
-    document.querySelector('#app')
+    document.querySelector('#app-root')
   );
 };

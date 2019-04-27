@@ -99,49 +99,61 @@ const connectionStatus = handleActions(
   'none'
 );
 
-const UIState = handleActions(
+const UIStateDeleteChannel = handleActions(
   {
-    [actions.registerChannelRequest](state) {
+    [actions.removeChannelProcessStart](state, { payload }) {
+      const { channelId, channelName } = payload;
+
       return {
-        ...state,
-        displayModalForm: 'channelEdit',
+        isShow: true,
+        channelId,
+        channelName,
       };
     },
-    [actions.registerChannelSuccess](state) {
+    [actions.removeChannelProcessFinish]() {
       return {
-        ...state,
-        displayModalForm: 'none',
+        isShow: false,
+        channelId: 0,
+        channelName: '',
+      };
+    },
+  },
+  { isShow: false, channelId: 0, channelName: '' }
+);
+
+const UIStateEditChannel = handleActions(
+  {
+    [actions.addChannelProcessStart]() {
+      return {
+        isShow: true,
         isEdit: false,
+        channelId: 0,
+        channelName: '',
       };
     },
-    [actions.editChannelRequest](state, { payload }) {
-      const { channelId } = payload;
+    [actions.editChannelProcessFinish]() {
       return {
-        ...state,
-        channelId,
-        displayModalForm: 'channelEdit',
+        isShow: false,
+        isEdit: false,
+        channelId: 0,
+        channelName: '',
+      };
+    },
+    [actions.editChannelProcessStart](state, { payload }) {
+      const { channelId, channelName } = payload;
+      return {
+        isShow: true,
         isEdit: true,
-      };
-    },
-    [actions.removeChannelConfirm](state, { payload }) {
-      const { channelId } = payload;
-      return {
-        ...state,
         channelId,
-        displayModalForm: 'channelDelete',
-      };
-    },
-    [actions.removeChannelConfirmFinish](state) {
-      return {
-        ...state,
-        displayModalForm: 'none',
+        channelName,
       };
     },
   },
   {
-    displayModalForm: 'none',
+    isShow: false,
     isEdit: false,
     channelId: 0,
+    channelName: '',
   }
 );
 
@@ -150,6 +162,7 @@ export default combineReducers({
   channels,
   messages,
   connectionStatus,
-  UIState,
+  UIStateEditChannel,
+  UIStateDeleteChannel,
   form: formReducer,
 });
