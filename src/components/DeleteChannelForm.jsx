@@ -15,6 +15,18 @@ const mapStateToProps = state => {
 @withForm('deleteChannel')
 @withConnect(mapStateToProps)
 class DeleteModalForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.cancelBtn = React.createRef();
+  }
+
+  componentDidUpdate() {
+    const { isShow } = this.props;
+    if (isShow) {
+      this.cancelBtn.current.focus();
+    }
+  }
+
   handleFormClose = () => {
     const { removeChannelProcessFinish } = this.props;
     removeChannelProcessFinish();
@@ -31,7 +43,6 @@ class DeleteModalForm extends React.Component {
   };
 
   render() {
-    console.log('render form ', this.props);
     const { channelName, handleSubmit, submitting, error, isShow } = this.props;
 
     return (
@@ -51,7 +62,7 @@ class DeleteModalForm extends React.Component {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleFormClose}>
+            <Button variant="secondary" onClick={this.handleFormClose} ref={this.cancelBtn}>
               Cancel
             </Button>
             <Button type="submit" variant="danger" disabled={submitting}>

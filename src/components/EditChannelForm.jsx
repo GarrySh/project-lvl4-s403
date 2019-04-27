@@ -19,7 +19,7 @@ const mapStateToProps = state => {
   };
 };
 
-const renderField = ({ input, label, type, meta: { error, pristine, submitting } }) => {
+const renderField = ({ input, label, cRef, type, meta: { error, pristine, submitting } }) => {
   const channelNameClass = cn({
     'form-control': true,
     'is-invalid': !pristine && !submitting && error,
@@ -29,16 +29,34 @@ const renderField = ({ input, label, type, meta: { error, pristine, submitting }
   return (
     <Form.Group>
       <Form.Label>{label}</Form.Label>
-      <Form.Control {...input} placeholder={label} type={type} className={channelNameClass} />
+      <Form.Control
+        {...input}
+        placeholder={label}
+        type={type}
+        className={channelNameClass}
+        ref={cRef}
+      />
       {error && <div className="invalid-feedback">{error}</div>}
     </Form.Group>
   );
 };
 
-// initialValue in mapStateToProps does not work when @decorators are used, in redux-form
+// initialValue in mapStateToProps does not work when @decorators are used in redux-form
 // @withForm('channelName')
 // @withConnect(mapStateToProps)
 class ModalChannelForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.channelNameInput = React.createRef();
+  }
+
+  componentDidUpdate() {
+    const { isShow } = this.props;
+    if (isShow) {
+      this.channelNameInput.current.focus();
+    }
+  }
+
   handleFormClose = () => {
     const { editChannelProcessFinish, reset } = this.props;
     editChannelProcessFinish();
@@ -83,6 +101,7 @@ class ModalChannelForm extends React.Component {
               type="text"
               component={renderField}
               label="Enter a unique channel name"
+              cRef={this.channelNameInput}
               validate={[
                 length({ minimum: 3 }),
                 exclusion({ in: channelNames, caseSensitive: false, msg: 'name is not unique' }),
