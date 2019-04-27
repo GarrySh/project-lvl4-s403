@@ -30,7 +30,8 @@ export default gon => {
   const socket = io.connect();
 
   socket.on('connect', () => {
-    store.dispatch(initAppRequest(gon));
+    const { channels, messages, currentChannelId } = gon;
+    store.dispatch(initAppRequest({ channels, messages, currentChannelId }));
   });
 
   socket.on('disconnect', () => {
