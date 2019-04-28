@@ -31,7 +31,7 @@ export const messagesSelector = createSelector(
 
 const getCurrentChannelId = state => state.currentChannelId;
 
-export const filteredMessagesSelector = createSelector(
+export const currentMessagesSelector = createSelector(
   [messagesSelector, getCurrentChannelId],
   (messages, currentChannelId) => messages.filter(message => message.channelId === currentChannelId)
 );
