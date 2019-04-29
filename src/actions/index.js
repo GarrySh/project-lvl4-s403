@@ -9,8 +9,7 @@ export const changeCurrentChannel = createAction('CHANGE_CURRENT_CHANNEL');
 
 export const initAppSuccess = createAction('INIT_APP_SUCCESS');
 
-export const initAppRequest = gon => dispatch => {
-  const { channels, messages, currentChannelId } = gon;
+export const initAppRequest = ({ channels, messages, currentChannelId }) => dispatch => {
   dispatch(appConnected());
   dispatch(initAppSuccess({ channels, messages, currentChannelId }));
 };
