@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import faker from 'faker';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
+import Rollbar from 'rollbar';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -21,6 +22,14 @@ import {
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
 export default gon => {
+  const rollbar = new Rollbar({
+    accessToken: '7f727886056142c2903442fa02b52306',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+  });
+
+  rollbar.info('app started');
+
   let userName = cookies.get('userName');
   if (!userName) {
     userName = faker.name.findName();
