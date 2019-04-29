@@ -19,7 +19,13 @@ const mapStateToProps = state => {
   };
 };
 
-const renderField = ({ input, label, cRef, type, meta: { error, pristine, submitting } }) => {
+const renderField = ({
+  input,
+  label,
+  componentRef,
+  type,
+  meta: { error, pristine, submitting },
+}) => {
   const channelNameClass = cn({
     'form-control': true,
     'is-invalid': !pristine && !submitting && error,
@@ -34,7 +40,7 @@ const renderField = ({ input, label, cRef, type, meta: { error, pristine, submit
         placeholder={label}
         type={type}
         className={channelNameClass}
-        ref={cRef}
+        ref={componentRef}
       />
       {error && <div className="invalid-feedback">{error}</div>}
     </Form.Group>
@@ -101,7 +107,7 @@ class ModalChannelForm extends React.Component {
               type="text"
               component={renderField}
               label="Enter a unique channel name"
-              cRef={this.channelNameInput}
+              componentRef={this.channelNameInput}
               validate={[
                 length({ minimum: 3 }),
                 exclusion({ in: channelNames, caseSensitive: false, msg: 'name is not unique' }),

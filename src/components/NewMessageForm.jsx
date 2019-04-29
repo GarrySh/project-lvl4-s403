@@ -13,10 +13,23 @@ const mapStateToProps = ({ currentChannelId }) => {
 
 const { UserNameContext } = context;
 
+const renderField = ({ input, componentRef, ...rest }) => {
+  return <Form.Control {...input} {...rest} ref={componentRef} />;
+};
+
 @withForm('newMessage')
 @withConnect(mapStateToProps)
-class newMessageForm extends React.Component {
+class NewMessageForm extends React.Component {
   static contextType = UserNameContext;
+
+  constructor(props) {
+    super(props);
+    this.textField = React.createRef();
+  }
+
+  componentDidUpdate() {
+    this.textField.current.focus();
+  }
 
   handleSubmit = async values => {
     const { addMessageRequest, reset, currentChannelId } = this.props;
@@ -40,9 +53,10 @@ class newMessageForm extends React.Component {
             <Field
               name="text"
               type="text"
-              component="input"
+              component={renderField}
               className="form-control"
               placeholder="Enter new message"
+              componentRef={this.textField}
             />
             <InputGroup.Append>
               <Form.Control
@@ -59,4 +73,4 @@ class newMessageForm extends React.Component {
   }
 }
 
-export default newMessageForm;
+export default NewMessageForm;
