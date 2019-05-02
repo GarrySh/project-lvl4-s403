@@ -8,7 +8,7 @@ import { channelsSelector } from '../selectors';
 const mapStateToProps = state => {
   const props = {
     channels: channelsSelector(state),
-    currentChannelId: state.currentChannelId,
+    currentChannelId: state.currentChannelId.id,
   };
   return props;
 };
@@ -21,26 +21,26 @@ class Chanels extends React.Component {
 
   handleClickChannel = id => event => {
     event.preventDefault();
-    const { changeCurrentChannel } = this.props;
-    changeCurrentChannel({ currentChannelId: id });
+    const { currentChannelChange } = this.props;
+    currentChannelChange({ channelId: id });
   };
 
   handleClickAddChannel = event => {
     event.preventDefault();
-    const { addChannelProcessStart } = this.props;
-    addChannelProcessStart();
+    const { modalFormShow } = this.props;
+    modalFormShow({ showModal: 'channelAdd' });
   };
 
   handleClickEdit = (channelId, channelName) => event => {
     event.preventDefault();
-    const { editChannelProcessStart } = this.props;
-    editChannelProcessStart({ channelId, channelName });
+    const { modalFormShow } = this.props;
+    modalFormShow({ showModal: 'channelEdit', formData: { channelId, channelName } });
   };
 
   handleClickDelete = (channelId, channelName) => event => {
     event.preventDefault();
-    const { removeChannelProcessStart } = this.props;
-    removeChannelProcessStart({ channelId, channelName });
+    const { modalFormShow } = this.props;
+    modalFormShow({ showModal: 'channelDelete', formData: { channelId, channelName } });
   };
 
   render() {

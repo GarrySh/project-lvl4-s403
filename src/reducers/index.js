@@ -6,13 +6,13 @@ import * as actions from '../actions';
 
 const channels = handleActions(
   {
-    [actions.initAppSuccess](state, { payload }) {
+    [actions.appInitSuccess](state, { payload }) {
       return {
         byId: _.keyBy(payload.channels, 'id'),
         allIds: payload.channels.map(channel => channel.id),
       };
     },
-    [actions.addChannelSuccess](state, { payload }) {
+    [actions.channelAddSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channel } = payload;
       return {
@@ -20,7 +20,7 @@ const channels = handleActions(
         allIds: [...allIds, channel.id],
       };
     },
-    [actions.removeChannelSuccess](state, { payload }) {
+    [actions.channelRemoveSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channelId } = payload;
       return {
@@ -28,7 +28,7 @@ const channels = handleActions(
         allIds: allIds.filter(id => id !== channelId),
       };
     },
-    [actions.renameChannelSuccess](state, { payload }) {
+    [actions.channelRenameSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channel } = payload;
       return {
@@ -42,13 +42,13 @@ const channels = handleActions(
 
 const messages = handleActions(
   {
-    [actions.initAppSuccess](state, { payload }) {
+    [actions.appInitSuccess](state, { payload }) {
       return {
         byId: _.keyBy(payload.messages, 'id'),
         allIds: payload.messages.map(message => message.id),
       };
     },
-    [actions.addMessageSuccess](state, { payload }) {
+    [actions.messageAddSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { message } = payload;
       return {
@@ -56,19 +56,14 @@ const messages = handleActions(
         allIds: [...allIds, message.id],
       };
     },
-    [actions.removeChannelSuccess](state, { payload }) {
+    [actions.channelRemoveSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channelId } = payload;
-      const idsForRemove = [];
       return {
-        byId: _.omitBy(byId, message => {
-          const compareResult = message.channelId === channelId;
-          if (compareResult) {
-            idsForRemove.push(message.id);
-          }
-          return compareResult;
-        }),
-        allIds: allIds.filter(id => !idsForRemove.includes(id)),
+        byId: _.omitBy(byId, message => _.isMatch(message, { channelId })),
+        allIds: _.differenceWith(allIds, [{ channelId }], (id, values) =>
+          _.isMatch(byId[id], values)
+        ),
       };
     },
   },
@@ -77,14 +72,23 @@ const messages = handleActions(
 
 const currentChannelId = handleActions(
   {
-    [actions.initAppSuccess](state, { payload }) {
-      return payload.currentChannelId;
+    [actions.appInitSuccess](state, { payload }) {
+      const { channelId } = payload;
+      return { defaultId: channelId, id: channelId };
     },
-    [actions.changeCurrentChannel](state, { payload }) {
-      return payload.currentChannelId;
+    [actions.currentChannelChange](state, { payload }) {
+      const { channelId } = payload;
+      return { ...state, id: channelId };
+    },
+    [actions.channelRemoveSuccess](state, { payload }) {
+      const { channelId } = payload;
+      if (channelId === state.id) {
+        return { ...state, id: state.defaultId };
+      }
+      return state;
     },
   },
-  0
+  { id: null, defaultId: null }
 );
 
 const connectionStatus = handleActions(
@@ -99,62 +103,23 @@ const connectionStatus = handleActions(
   'none'
 );
 
-const UIStateDeleteChannel = handleActions(
+const UIStateModal = handleActions(
   {
-    [actions.removeChannelProcessStart](state, { payload }) {
-      const { channelId, channelName } = payload;
-
+    [actions.modalFormShow](state, { payload }) {
+      const { showModal, formData = {} } = payload;
       return {
-        isShow: true,
-        channelId,
-        channelName,
+        showModal,
+        formData,
       };
     },
-    [actions.removeChannelProcessFinish]() {
+    [actions.modalFormClose]() {
       return {
-        isShow: false,
-        channelId: 0,
-        channelName: '',
+        showModal: 'none',
+        formData: {},
       };
     },
   },
-  { isShow: false, channelId: 0, channelName: '' }
-);
-
-const UIStateEditChannel = handleActions(
-  {
-    [actions.addChannelProcessStart]() {
-      return {
-        isShow: true,
-        isEdit: false,
-        channelId: 0,
-        channelName: '',
-      };
-    },
-    [actions.editChannelProcessFinish]() {
-      return {
-        isShow: false,
-        isEdit: false,
-        channelId: 0,
-        channelName: '',
-      };
-    },
-    [actions.editChannelProcessStart](state, { payload }) {
-      const { channelId, channelName } = payload;
-      return {
-        isShow: true,
-        isEdit: true,
-        channelId,
-        channelName,
-      };
-    },
-  },
-  {
-    isShow: false,
-    isEdit: false,
-    channelId: 0,
-    channelName: '',
-  }
+  { showModal: 'none', formData: {} }
 );
 
 export default combineReducers({
@@ -162,7 +127,6 @@ export default combineReducers({
   channels,
   messages,
   connectionStatus,
-  UIStateEditChannel,
-  UIStateDeleteChannel,
+  UIStateModal,
   form: formReducer,
 });

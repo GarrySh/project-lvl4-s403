@@ -3,16 +3,15 @@ import cn from 'classnames';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Field, SubmissionError, reduxForm } from 'redux-form';
 import { exclusion, length } from 'redux-form-validators';
-import { connect } from 'react-redux';
-// import { withForm, withConnect } from '../decorators';
+import { withConnect } from '../decorators';
 import { channelNamesSelector } from '../selectors';
-import * as actionCreators from '../actions';
 
 const mapStateToProps = state => {
-  const { isShow, isEdit, channelId, channelName } = state.UIStateEditChannel;
+  const { showModal, formData } = state.UIStateModal;
+  const { channelId, channelName = '' } = formData;
   return {
-    isShow,
-    isEdit,
+    isShow: showModal === 'channelAdd' || showModal === 'channelEdit',
+    isEdit: showModal === 'channelEdit',
     channelId,
     channelNames: channelNamesSelector(state),
     initialValues: { channelName },
@@ -47,10 +46,12 @@ const renderField = ({
   );
 };
 
-// initialValue in mapStateToProps does not work when @decorators are used in redux-form
-// @withForm('channelName')
-// @withConnect(mapStateToProps)
-class ModalChannelForm extends React.Component {
+@withConnect(mapStateToProps)
+@reduxForm({
+  form: 'channelEdit',
+  enableReinitialize: true,
+})
+class ChannelModalForm extends React.Component {
   constructor(props) {
     super(props);
     this.channelNameInput = React.createRef();
@@ -64,42 +65,42 @@ class ModalChannelForm extends React.Component {
   }
 
   handleFormClose = () => {
-    const { editChannelProcessFinish, reset } = this.props;
-    editChannelProcessFinish();
+    const { modalFormClose, reset } = this.props;
+    modalFormClose();
     reset();
   };
 
   handleSubmit = async ({ channelName }) => {
     const {
-      addChannelRequest,
-      renameChannelRequest,
+      channelAddRequest,
+      channelRenameRequest,
       reset,
-      editChannelProcessFinish,
+      modalFormClose,
       isEdit,
       channelId,
     } = this.props;
 
     try {
       if (isEdit) {
-        await renameChannelRequest({ channel: { name: channelName, id: channelId } });
+        await channelRenameRequest({ channel: { name: channelName, id: channelId } });
       } else {
-        await addChannelRequest({ channel: { name: channelName } });
+        await channelAddRequest({ channel: { name: channelName } });
       }
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }
-    editChannelProcessFinish();
+    modalFormClose();
     reset();
   };
 
   render() {
-    const { channelNames, handleSubmit, submitting, pristine, valid, isShow } = this.props;
+    const { channelNames, handleSubmit, submitting, pristine, valid, isShow, isEdit } = this.props;
 
     return (
       <Modal show={isShow} onHide={this.handleFormClose}>
         <Form onSubmit={handleSubmit(this.handleSubmit)}>
           <Modal.Header closeButton>
-            <Modal.Title>Add new channel</Modal.Title>
+            <Modal.Title>{isEdit ? 'Rename channel' : 'Add new channel'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Field
@@ -128,14 +129,4 @@ class ModalChannelForm extends React.Component {
   }
 }
 
-const ConnectedNewTaskForm = reduxForm({
-  form: 'channelName',
-  enableReinitialize: true,
-})(ModalChannelForm);
-
-export default connect(
-  mapStateToProps,
-  actionCreators
-)(ConnectedNewTaskForm);
-
-// export default ModalChannelForm;
+export default ChannelModalForm;

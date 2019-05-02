@@ -29,7 +29,7 @@ export const messagesSelector = createSelector(
     })
 );
 
-const getCurrentChannelId = state => state.currentChannelId;
+const getCurrentChannelId = state => state.currentChannelId.id;
 
 export const currentMessagesSelector = createSelector(
   [messagesSelector, getCurrentChannelId],

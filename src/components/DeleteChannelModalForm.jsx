@@ -1,20 +1,23 @@
 import React from 'react';
-import { SubmissionError } from 'redux-form';
+import { reduxForm, SubmissionError } from 'redux-form';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { withConnect, withForm } from '../decorators';
+import { withConnect } from '../decorators';
 
 const mapStateToProps = state => {
-  const { isShow, channelId, channelName } = state.UIStateDeleteChannel;
+  const { showModal, formData } = state.UIStateModal;
+  const { channelId, channelName } = formData;
   return {
-    isShow,
+    isShow: showModal === 'channelDelete',
     channelId,
     channelName,
   };
 };
 
-@withForm('deleteChannel')
 @withConnect(mapStateToProps)
-class DeleteModalForm extends React.Component {
+@reduxForm({
+  form: 'channelDelete',
+})
+class DeleteChannelModalForm extends React.Component {
   constructor(props) {
     super(props);
     this.cancelBtn = React.createRef();
@@ -28,15 +31,15 @@ class DeleteModalForm extends React.Component {
   }
 
   handleFormClose = () => {
-    const { removeChannelProcessFinish } = this.props;
-    removeChannelProcessFinish();
+    const { modalFormClose } = this.props;
+    modalFormClose();
   };
 
   handleSubmit = async () => {
-    const { removeChannelRequest, removeChannelProcessFinish, channelId } = this.props;
+    const { channelRemoveRequest, modalFormClose, channelId } = this.props;
     try {
-      await removeChannelRequest(channelId);
-      removeChannelProcessFinish();
+      await channelRemoveRequest(channelId);
+      modalFormClose();
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }
@@ -75,4 +78,4 @@ class DeleteModalForm extends React.Component {
   }
 }
 
-export default DeleteModalForm;
+export default DeleteChannelModalForm;

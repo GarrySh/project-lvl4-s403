@@ -1,14 +1,13 @@
 import React from 'react';
-import { Field, SubmissionError } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Form, InputGroup } from 'react-bootstrap';
 import context from '../context';
-import { withConnect, withForm } from '../decorators';
+import { withConnect } from '../decorators';
 
-const mapStateToProps = ({ currentChannelId }) => {
-  const props = {
-    currentChannelId,
+const mapStateToProps = ({ currentChannelId: { id } }) => {
+  return {
+    currentChannelId: id,
   };
-  return props;
 };
 
 const { UserNameContext } = context;
@@ -17,8 +16,10 @@ const renderField = ({ input, componentRef, ...rest }) => {
   return <Form.Control {...input} {...rest} ref={componentRef} />;
 };
 
-@withForm('newMessage')
 @withConnect(mapStateToProps)
+@reduxForm({
+  form: 'messageCreate',
+})
 class NewMessageForm extends React.Component {
   static contextType = UserNameContext;
 
@@ -32,10 +33,10 @@ class NewMessageForm extends React.Component {
   }
 
   handleSubmit = async values => {
-    const { addMessageRequest, reset, currentChannelId } = this.props;
+    const { messageAddRequest, reset, currentChannelId } = this.props;
     const message = { ...values, userName: this.context, channelId: currentChannelId };
     try {
-      await addMessageRequest({ message });
+      await messageAddRequest({ message });
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }

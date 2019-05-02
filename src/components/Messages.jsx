@@ -4,8 +4,7 @@ import { withConnect } from '../decorators';
 import { currentMessagesSelector } from '../selectors';
 
 const mapStateToProps = state => {
-  const props = { messages: currentMessagesSelector(state) };
-  return props;
+  return { messages: currentMessagesSelector(state) };
 };
 
 @withConnect(mapStateToProps)
