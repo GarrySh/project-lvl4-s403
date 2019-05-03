@@ -1,4 +1,3 @@
-import 'bootstrap';
 import '../scss/custom.scss';
 import gon from 'gon';
 
