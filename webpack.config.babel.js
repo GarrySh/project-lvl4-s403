@@ -20,7 +20,7 @@ export default () => ({
     path: path.resolve(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
   },
-  devtool: isDevelopment && 'cheap-module-eval-source-map',
+  devtool: isDevelopment && 'cheap-module-source-map',
   module: {
     rules: [
       {

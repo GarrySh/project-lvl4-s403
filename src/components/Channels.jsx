@@ -1,5 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSlack, faSlackHash } from '@fortawesome/free-brands-svg-icons';
+import { faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Nav, Badge } from 'react-bootstrap';
 import context from '../context';
 import { withConnect } from '../decorators';
@@ -49,7 +52,7 @@ class Chanels extends React.Component {
     return (
       <>
         <p className="h2 p-3 text-white">
-          <span className="fab fa-slack mr-2" />
+          <FontAwesomeIcon className="mr-2" icon={faSlack} />
           simple slack
         </p>
         <div className="p-3 lead">
@@ -79,7 +82,7 @@ class Chanels extends React.Component {
                   href={`/channel/${id}`}
                   onClick={this.handleClickChannel(id)}
                 >
-                  <span className="fab fa-slack-hash mr-2" />
+                  <FontAwesomeIcon className="mr-2" icon={faSlackHash} />
                   {name}
                 </Nav.Link>
                 {removable && (
@@ -88,13 +91,13 @@ class Chanels extends React.Component {
                       className={channelIconClasses}
                       onClick={this.handleClickEdit(id, name)}
                     >
-                      <span className="far fa-edit" />
+                      <FontAwesomeIcon icon={faEdit} />
                     </Nav.Link>
                     <Nav.Link
                       className={channelIconClasses}
                       onClick={this.handleClickDelete(id, name)}
                     >
-                      <span className="fas fa-trash" />
+                      <FontAwesomeIcon className="mr-1" icon={faTrash} />
                     </Nav.Link>
                   </>
                 )}
@@ -102,7 +105,7 @@ class Chanels extends React.Component {
             );
           })}
           <Nav.Link className="mt-3 text-white" onClick={this.handleClickAddChannel}>
-            <span className="fas fa-plus mr-2" />
+            <FontAwesomeIcon className="mr-2" icon={faPlus} />
             Add new channel
           </Nav.Link>
         </Nav>

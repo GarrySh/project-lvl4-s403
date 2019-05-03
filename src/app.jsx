@@ -1,6 +1,6 @@
 import React from 'react';
 import thunk from 'redux-thunk';
-import faker from 'faker';
+import { name as fakerName } from 'faker';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
 import Rollbar from 'rollbar';
@@ -32,7 +32,7 @@ export default gon => {
 
   let userName = cookies.get('userName');
   if (!userName) {
-    userName = faker.name.findName();
+    userName = fakerName.findName();
     cookies.set('userName', userName, { expires: 1 });
   }
 
