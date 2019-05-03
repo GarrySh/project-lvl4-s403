@@ -99,8 +99,7 @@
     "flow-typed": "^2.5.1",
     "jest": "^24.5.0",
     "jest-cli": "^24.5.0",
-    "nodemon": "^1.19.0",
-    "webpack-bundle-analyzer": "^3.3.2"
+    "nodemon": "^1.19.0"
   },
   "browserslist": [
     ">0.2%",
