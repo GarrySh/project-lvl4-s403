@@ -1,6 +1,7 @@
 import path from 'path';
 import precss from 'precss';
 import autoprefixer from 'autoprefixer';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -43,4 +44,5 @@ export default () => ({
       },
     ],
   },
+  plugins: [isDevelopment && new BundleAnalyzerPlugin()].filter(Boolean),
 });
