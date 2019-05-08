@@ -59,11 +59,10 @@ const messages = handleActions(
     [actions.removeChannelSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channelId } = payload;
+      const filtredByIds = _.omitBy(byId, message => _.isMatch(message, { channelId }));
       return {
-        byId: _.omitBy(byId, message => _.isMatch(message, { channelId })),
-        allIds: _.differenceWith(allIds, [{ channelId }], (id, values) =>
-          _.isMatch(byId[id], values)
-        ),
+        byId: filtredByIds,
+        allIds: allIds.filter(id => filtredByIds[id]),
       };
     },
   },
