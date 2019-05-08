@@ -5,18 +5,18 @@ import routes from '../routes';
 export const appConnected = createAction('APP_CONNECTED');
 export const appDisconnected = createAction('APP_DISCONNECTED');
 
-export const currentChannelChange = createAction('CURRENT_CHANNEL_CHANGE');
+export const changeCurrentChannel = createAction('CURRENT_CHANNEL_CHANGE');
 
-export const appInitSuccess = createAction('APP_INIT_SUCCESS');
+export const initAppSuccess = createAction('APP_INIT_SUCCESS');
 
-export const appInitRequest = ({ channels, messages, currentChannelId }) => dispatch => {
+export const initAppRequest = ({ channels, messages, currentChannelId }) => dispatch => {
   dispatch(appConnected());
-  dispatch(appInitSuccess({ channels, messages, channelId: currentChannelId }));
+  dispatch(initAppSuccess({ channels, messages, channelId: currentChannelId }));
 };
 
-export const messageAddSuccess = createAction('MESSAGE_ADD_SUCCESS');
+export const addMessageSuccess = createAction('MESSAGE_ADD_SUCCESS');
 
-export const messageAddRequest = ({ message }) => async () => {
+export const addMessageRequest = ({ message }) => async () => {
   const route = routes.messagesUrl(message.channelId);
   const apiRequest = {
     data: {
@@ -29,9 +29,9 @@ export const messageAddRequest = ({ message }) => async () => {
   await axios.post(route, apiRequest);
 };
 
-export const channelAddSuccess = createAction('CHANNEL_ADD_SUCCESS');
+export const addChannelSuccess = createAction('CHANNEL_ADD_SUCCESS');
 
-export const channelAddRequest = ({ channel }) => async () => {
+export const addChannelRequest = ({ channel }) => async () => {
   const route = routes.channelsUrl();
   const apiRequest = {
     data: {
@@ -43,16 +43,16 @@ export const channelAddRequest = ({ channel }) => async () => {
   await axios.post(route, apiRequest);
 };
 
-export const channelRemoveSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
+export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
 
-export const channelRemoveRequest = channelId => async () => {
+export const removeChannelRequest = channelId => async () => {
   const route = routes.channelUrl(channelId);
   await axios.delete(route);
 };
 
-export const channelRenameSuccess = createAction('CHANNEL_RENAME_SUCCESS');
+export const renameChannelSuccess = createAction('CHANNEL_RENAME_SUCCESS');
 
-export const channelRenameRequest = ({ channel }) => async () => {
+export const renameChannelRequest = ({ channel }) => async () => {
   const route = routes.channelUrl(channel.id);
   const apiRequest = {
     data: {
@@ -64,5 +64,5 @@ export const channelRenameRequest = ({ channel }) => async () => {
   await axios.patch(route, apiRequest);
 };
 
-export const modalFormShow = createAction('MODAL_FORM_SHOW');
-export const modalFormClose = createAction('MODAL_FORM_CLOSE');
+export const showModalForm = createAction('MODAL_FORM_SHOW');
+export const closeModalForm = createAction('MODAL_FORM_CLOSE');

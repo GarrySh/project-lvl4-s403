@@ -65,31 +65,31 @@ class ChannelModalForm extends React.Component {
   }
 
   handleFormClose = () => {
-    const { modalFormClose, reset } = this.props;
-    modalFormClose();
+    const { closeModalForm, reset } = this.props;
+    closeModalForm();
     reset();
   };
 
   handleSubmit = async ({ channelName }) => {
     const {
-      channelAddRequest,
-      channelRenameRequest,
+      addChannelRequest,
+      renameChannelRequest,
       reset,
-      modalFormClose,
+      closeModalForm,
       isEdit,
       channelId,
     } = this.props;
 
     try {
       if (isEdit) {
-        await channelRenameRequest({ channel: { name: channelName, id: channelId } });
+        await renameChannelRequest({ channel: { name: channelName, id: channelId } });
       } else {
-        await channelAddRequest({ channel: { name: channelName } });
+        await addChannelRequest({ channel: { name: channelName } });
       }
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }
-    modalFormClose();
+    closeModalForm();
     reset();
   };
 

@@ -31,15 +31,15 @@ class DeleteChannelModalForm extends React.Component {
   }
 
   handleFormClose = () => {
-    const { modalFormClose } = this.props;
-    modalFormClose();
+    const { closeModalForm } = this.props;
+    closeModalForm();
   };
 
   handleSubmit = async () => {
-    const { channelRemoveRequest, modalFormClose, channelId } = this.props;
+    const { removeChannelRequest, closeModalForm, channelId } = this.props;
     try {
-      await channelRemoveRequest(channelId);
-      modalFormClose();
+      await removeChannelRequest(channelId);
+      closeModalForm();
     } catch (err) {
       throw new SubmissionError({ _error: err.message });
     }

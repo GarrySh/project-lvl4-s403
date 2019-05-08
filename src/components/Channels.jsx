@@ -24,26 +24,26 @@ class Chanels extends React.Component {
 
   handleClickChannel = id => event => {
     event.preventDefault();
-    const { currentChannelChange } = this.props;
-    currentChannelChange({ channelId: id });
+    const { changeCurrentChannel } = this.props;
+    changeCurrentChannel({ channelId: id });
   };
 
   handleClickAddChannel = event => {
     event.preventDefault();
-    const { modalFormShow } = this.props;
-    modalFormShow({ showModal: 'channelAdd' });
+    const { showModalForm } = this.props;
+    showModalForm({ showModal: 'channelAdd' });
   };
 
   handleClickEdit = (channelId, channelName) => event => {
     event.preventDefault();
-    const { modalFormShow } = this.props;
-    modalFormShow({ showModal: 'channelEdit', formData: { channelId, channelName } });
+    const { showModalForm } = this.props;
+    showModalForm({ showModal: 'channelEdit', formData: { channelId, channelName } });
   };
 
   handleClickDelete = (channelId, channelName) => event => {
     event.preventDefault();
-    const { modalFormShow } = this.props;
-    modalFormShow({ showModal: 'channelDelete', formData: { channelId, channelName } });
+    const { showModalForm } = this.props;
+    showModalForm({ showModal: 'channelDelete', formData: { channelId, channelName } });
   };
 
   render() {

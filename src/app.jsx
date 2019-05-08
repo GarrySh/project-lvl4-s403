@@ -11,12 +11,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 import App from './components/App';
 import {
-  appInitRequest,
-  messageAddSuccess,
-  channelAddSuccess,
+  initAppRequest,
+  addMessageSuccess,
+  addChannelSuccess,
   appDisconnected,
-  channelRemoveSuccess,
-  channelRenameSuccess,
+  removeChannelSuccess,
+  renameChannelSuccess,
 } from './actions';
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
@@ -40,7 +40,7 @@ export default gon => {
 
   socket.on('connect', () => {
     const { channels, messages, currentChannelId } = gon;
-    store.dispatch(appInitRequest({ channels, messages, currentChannelId }));
+    store.dispatch(initAppRequest({ channels, messages, currentChannelId }));
   });
 
   socket.on('disconnect', () => {
@@ -48,19 +48,19 @@ export default gon => {
   });
 
   socket.on('newMessage', res => {
-    store.dispatch(messageAddSuccess({ message: res.data.attributes }));
+    store.dispatch(addMessageSuccess({ message: res.data.attributes }));
   });
 
   socket.on('newChannel', res => {
-    store.dispatch(channelAddSuccess({ channel: res.data.attributes }));
+    store.dispatch(addChannelSuccess({ channel: res.data.attributes }));
   });
 
   socket.on('removeChannel', res => {
-    store.dispatch(channelRemoveSuccess({ channelId: res.data.id }));
+    store.dispatch(removeChannelSuccess({ channelId: res.data.id }));
   });
 
   socket.on('renameChannel', res => {
-    store.dispatch(channelRenameSuccess({ channel: res.data.attributes }));
+    store.dispatch(renameChannelSuccess({ channel: res.data.attributes }));
   });
 
   render(

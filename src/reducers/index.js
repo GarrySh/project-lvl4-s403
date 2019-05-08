@@ -6,13 +6,13 @@ import * as actions from '../actions';
 
 const channels = handleActions(
   {
-    [actions.appInitSuccess](state, { payload }) {
+    [actions.initAppSuccess](state, { payload }) {
       return {
         byId: _.keyBy(payload.channels, 'id'),
         allIds: payload.channels.map(channel => channel.id),
       };
     },
-    [actions.channelAddSuccess](state, { payload }) {
+    [actions.addChannelSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channel } = payload;
       return {
@@ -20,7 +20,7 @@ const channels = handleActions(
         allIds: [...allIds, channel.id],
       };
     },
-    [actions.channelRemoveSuccess](state, { payload }) {
+    [actions.removeChannelSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channelId } = payload;
       return {
@@ -28,7 +28,7 @@ const channels = handleActions(
         allIds: allIds.filter(id => id !== channelId),
       };
     },
-    [actions.channelRenameSuccess](state, { payload }) {
+    [actions.renameChannelSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channel } = payload;
       return {
@@ -42,13 +42,13 @@ const channels = handleActions(
 
 const messages = handleActions(
   {
-    [actions.appInitSuccess](state, { payload }) {
+    [actions.initAppSuccess](state, { payload }) {
       return {
         byId: _.keyBy(payload.messages, 'id'),
         allIds: payload.messages.map(message => message.id),
       };
     },
-    [actions.messageAddSuccess](state, { payload }) {
+    [actions.addMessageSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { message } = payload;
       return {
@@ -56,7 +56,7 @@ const messages = handleActions(
         allIds: [...allIds, message.id],
       };
     },
-    [actions.channelRemoveSuccess](state, { payload }) {
+    [actions.removeChannelSuccess](state, { payload }) {
       const { allIds, byId } = state;
       const { channelId } = payload;
       return {
@@ -72,15 +72,15 @@ const messages = handleActions(
 
 const currentChannelId = handleActions(
   {
-    [actions.appInitSuccess](state, { payload }) {
+    [actions.initAppSuccess](state, { payload }) {
       const { channelId } = payload;
       return { defaultId: channelId, id: channelId };
     },
-    [actions.currentChannelChange](state, { payload }) {
+    [actions.changeCurrentChannel](state, { payload }) {
       const { channelId } = payload;
       return { ...state, id: channelId };
     },
-    [actions.channelRemoveSuccess](state, { payload }) {
+    [actions.removeChannelSuccess](state, { payload }) {
       const { channelId } = payload;
       if (channelId === state.id) {
         return { ...state, id: state.defaultId };
@@ -105,14 +105,14 @@ const connectionStatus = handleActions(
 
 const UIStateModal = handleActions(
   {
-    [actions.modalFormShow](state, { payload }) {
+    [actions.showModalForm](state, { payload }) {
       const { showModal, formData = {} } = payload;
       return {
         showModal,
         formData,
       };
     },
-    [actions.modalFormClose]() {
+    [actions.closeModalForm]() {
       return {
         showModal: 'none',
         formData: {},
